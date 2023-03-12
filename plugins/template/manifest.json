@@ -1,5 +1,5 @@
 {
-    "name": "Template Plugin",
+    "name": "Global Badges",
     "description": "A plugin for use as a template.",
     "authors": [
         {
@@ -7,7 +7,7 @@
             "id": "YOUR_ID_HERE"
         }
     ],
-    "main": "src/index.ts",
+    "main": "src/index.tsx",
     "vendetta": {
         "icon": "ic_badge_staff"
     }

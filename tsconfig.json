@@ -6,7 +6,9 @@
         "moduleResolution": "node",
         "esModuleInterop": true,
         "jsx": "react-native",
-        "allowJs": true
+        "allowJs": true,
+        "noImplicitAny": false,
+        "strict": true
     },
     "include": ["plugins", "node_modules/vendetta-types"]
 }
