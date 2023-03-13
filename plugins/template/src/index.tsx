@@ -8,7 +8,6 @@ import { after, before } from "@vendetta/patcher";
 import { ReactNative as RN, stylesheet, toasts } from "@vendetta/metro/common";
 
 import Badges from "./Icons";
-import bdDevsLogo from "./Icons/bdDevs.svg";
 
 const { View, TouchableOpacity, Image } = RN
 
@@ -122,16 +121,15 @@ export default {
           </TouchableOpacity>
         </View>
       )
-          console.log(bdDevsLogo)
       const bdViewable = (
         <View key="gb-bd" style={styles.container}>
             <TouchableOpacity key="bd-dev" onPress={() => {
                 toasts.open({
                     content: "BetterDiscord Developer",
-                    source: { uri: bdDevsLogo }
+                    source: { uri: 'https://raw.githubusercontent.com/WolfPlugs/vendetta-plugins/master/plugins/template/src/Icons/bdDevs.svg' }
                 });
             }}>
-                <SvgUri style={styles.img} source={ bdDevsLogo } />
+                <SvgUri style={styles.img} source={{ uri: 'https://raw.githubusercontent.com/WolfPlugs/vendetta-plugins/master/plugins/template/src/Icons/bdDevs.svg' }} />
             </TouchableOpacity>
         </View>
     )
