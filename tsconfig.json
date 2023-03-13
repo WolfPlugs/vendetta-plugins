@@ -10,5 +10,5 @@
         "noImplicitAny": false,
         "strict": true
     },
-    "include": ["plugins", "node_modules/vendetta-types"]
+    "include": ["plugins", "node_modules/vendetta-types", "Types/*.ts", "Types/*.tsx"]
 }

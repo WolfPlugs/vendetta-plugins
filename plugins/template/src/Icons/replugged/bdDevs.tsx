@@ -1,7 +1,7 @@
 import { React } from "@vendetta/metro/common";
 
-export default React.memo((props) => (
-  <svg viewBox="0 0 2000 2000" {...props}>
+export default `
+  <svg viewBox="0 0 2000 2000", {...props}>
     <g>
       <path
         fill="#3E82E5"
@@ -13,4 +13,4 @@ export default React.memo((props) => (
       />
     </g>
   </svg>
-));
+`;

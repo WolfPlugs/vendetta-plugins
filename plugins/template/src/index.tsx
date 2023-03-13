@@ -8,6 +8,7 @@ import { after, before } from "@vendetta/patcher";
 import { ReactNative as RN, stylesheet, toasts } from "@vendetta/metro/common";
 
 import Badges from "./Icons";
+import bdDevsLogo from "./Icons/bdDevs.svg";
 
 const { View, TouchableOpacity, Image } = RN
 
@@ -72,6 +73,8 @@ const REFRESH_INTERVAL = 1000 * 60 * 30;
 
 const profileBadges = findByDisplayName("ProfileBadges", false);
 
+const svgshit = findByProps("SvgUri")
+
 let unpatch;
 
 export default {
@@ -94,7 +97,7 @@ export default {
 
     unpatch = after("default", profileBadges, (args, res) => {
 
-
+        const { SvgUri } = svgshit
       const user = args[0]?.user;
       if (user === undefined) return;
 
@@ -115,20 +118,20 @@ export default {
               source: { uri: customBadgesArray.badge }
             });
           }}>
-            <Image style={styles.img} source={{ uri: customBadgesArray.badge }} />
+            <SvgUri style={styles.img} source={{ uri: customBadgesArray.badge }} />
           </TouchableOpacity>
         </View>
       )
-
+          console.log(bdDevsLogo)
       const bdViewable = (
         <View key="gb-bd" style={styles.container}>
             <TouchableOpacity key="bd-dev" onPress={() => {
                 toasts.open({
                     content: "BetterDiscord Developer",
-                    source: { uri: Badges.bdDevs }
+                    source: { uri: bdDevsLogo }
                 });
             }}>
-                <Image style={styles.img} source={{ uri: Badges.bdDevs }} />
+                <SvgUri style={styles.img} source={ bdDevsLogo } />
             </TouchableOpacity>
         </View>
     )
@@ -246,7 +249,7 @@ export default {
                     source: { uri: Badges.Booster }
                 });
             }}>
-                <Image style={styles.img} source={{ uri: Badges.Booster }} />
+                <SvgUri style={styles.img} source={{ uri: Badges.Booster }} />
             </TouchableOpacity>
         </View>
     )
@@ -259,7 +262,7 @@ export default {
                     source: { uri: Badges.BugHunter }
                 });
             }}>
-                <Image style={styles.img} source={{ uri: Badges.BugHunter }} />
+                <SvgUri style={styles.img} source={{ uri: Badges.BugHunter }} />
             </TouchableOpacity>
         </View>
     )
@@ -272,7 +275,7 @@ export default {
                     source: { uri: Badges.Contributor }
                 });
             }}>
-                <Image style={styles.img} source={{ uri: Badges.Contributor }} />
+                <SvgUri style={styles.img} source={{ uri: Badges.Contributor }} />
             </TouchableOpacity>
         </View>
     )
@@ -285,7 +288,7 @@ export default {
                     source: { uri: Badges.Developer }
                 });
             }}>
-                <Image style={styles.img} source={{ uri: Badges.Developer }} />
+                <SvgUri style={styles.img} source={{ uri: Badges.Developer }} />
             </TouchableOpacity>
         </View>
     )
@@ -298,7 +301,7 @@ export default {
                     source: { uri: Badges.EarlyUser }
                 });
             }}>
-                <Image style={styles.img} source={{ uri: Badges.EarlyUser }} />
+                <SvgUri style={styles.img} source={{ uri: Badges.EarlyUser }} />
             </TouchableOpacity>
         </View>
     )
@@ -311,7 +314,7 @@ export default {
                     source: { uri: Badges.Staff }
                 });
             }}>
-                <Image style={styles.img} source={{ uri: Badges.Staff }} />
+                <SvgUri style={styles.img} source={{ uri: Badges.Staff }} />
             </TouchableOpacity>
         </View>
     )
@@ -337,7 +340,7 @@ export default {
                     source: { uri: Badges.Translator }
                 });
             }}>
-                <Image style={styles.img} source={{ uri: Badges.Translator }} />
+                <SvgUri style={styles.img} source={{ uri: Badges.Translator }} />
             </TouchableOpacity>
         </View>
     )
