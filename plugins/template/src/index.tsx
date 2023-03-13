@@ -36,6 +36,36 @@ interface CustomBadges {
         };
       };
     };
+    staff: {
+      data: {
+        name: string;
+        id: string;
+        url: {
+          dark: string;
+          light: string;
+        };
+      };
+    };
+    dev: {
+      data: {
+        name: string;
+        id: string;
+        url: {
+          dark: string;
+          light: string;
+        };
+      };
+    };
+    contributor: {
+      data: {
+        name: string;
+        id: string;
+        url: {
+          dark: string;
+          light: string;
+        };
+      };
+    };
   };
   goosemod: {
     sponsor: boolean;
@@ -131,6 +161,58 @@ export default {
                     });
                 }}>
                     <Image style={styles.img} source={{ uri: enmity?.supporter?.data.url.dark }} />
+                </TouchableOpacity>
+            </View>
+        )
+
+        const enmityStaffViewable = (
+            <View key="gb-enmitystaff" style={styles.container}>
+                <TouchableOpacity key="enmity-staff" onPress={() => {
+                    toasts.open({
+                        content: "Enmity Staff",
+                        source: { uri: enmity?.staff?.data?.url.dark }
+                    });
+                }}>
+                    <Image style={styles.img} source={{ uri: enmity?.staff?.data.url.dark }} />
+                </TouchableOpacity>
+            </View>
+        )
+
+        const enmityDevViewable = (
+            <View key="gb-enmitydev" style={styles.container}>
+                <TouchableOpacity key="enmity-dev" onPress={() => {
+                    toasts.open({
+                        content: "Enmity Developer",
+                        source: { uri: enmity?.dev?.data?.url.dark }
+                    });
+                }}>
+                    <Image style={styles.img} source={{ uri: enmity?.dev?.data.url.dark }} />
+                </TouchableOpacity>
+            </View>
+        )
+
+        const enmityContributorViewable = (
+            <View key="gb-enmitycontributor" style={styles.container}>
+                <TouchableOpacity key="enmity-contributor" onPress={() => {
+                    toasts.open({
+                        content: "Enmity Contributor",
+                        source: { uri: enmity?.contributor?.data?.url.dark }
+                    });
+                }}>
+                    <Image style={styles.img} source={{ uri: enmity?.contributor?.data.url.dark }} />
+                </TouchableOpacity>
+            </View>
+        )
+
+        const enmityCustomViewable = (
+            <View key="gb-enmitycustom" style={styles.container}>
+                <TouchableOpacity key="enmity-custom" onPress={() => {
+                    toasts.open({
+                        content: enmity[user.id]?.data?.name,
+                        source: { uri: enmity[user.id]?.data?.url.dark }
+                    });
+                }}>
+                    <Image style={styles.img} source={{ uri: enmity[user.id]?.data?.url.dark }} />
                 </TouchableOpacity>
             </View>
         )
@@ -286,6 +368,10 @@ export default {
         custombadgesViewable,
         bdViewable,
         enmityViewable,
+        enmityContributorViewable,
+        enmityDevViewable,
+        enmityStaffViewable,
+        enmityCustomViewable,
         goosemodSponsorViewable,
         goosemodDevViewable,
         goosemodTranslatorViewable,
@@ -337,6 +423,10 @@ function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
         { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
         { condition: badges.bd.dev, component: Badge.bdViewable },
         { condition: badges.enmity, component: Badge.enmityViewable },
+        { condition: badges.enmity.contributor, component: Badge.enmityContributorViewable },
+        { condition: badges.enmity.dev, component: Badge.enmityDevViewable },
+        { condition: badges.enmity.staff, component: Badge.enmityStaffViewable },
+        { condition: badges.enmity, component: Badge.enmityCustomViewable },
         { condition: badges.goosemod.sponsor, component: Badge.goosemodSponsorViewable },
         { condition: badges.goosemod.dev, component: Badge.goosemodDevViewable },
         { condition: badges.goosemod.translator, component: Badge.goosemodTranslatorViewable },
