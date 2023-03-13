@@ -126,10 +126,10 @@ export default {
             <TouchableOpacity key="bd-dev" onPress={() => {
                 toasts.open({
                     content: "BetterDiscord Developer",
-                    source: { uri: 'https://raw.githubusercontent.com/WolfPlugs/vendetta-plugins/master/plugins/template/src/Icons/bdDevs.svg' }
+                    source: { uri: 'https://raw.githubusercontent.com/WolfPlugs/vendetta-plugins/master/plugins/template/src/Icons/bdDevs.png' }
                 });
             }}>
-                <SvgUri style={styles.img} source={{ uri: 'https://raw.githubusercontent.com/WolfPlugs/vendetta-plugins/master/plugins/template/src/Icons/bdDevs.svg' }} />
+                <Image style={styles.img} source={{ uri:'https://raw.githubusercontent.com/WolfPlugs/vendetta-plugins/master/plugins/template/src/Icons/bdDevs.png' }} />
             </TouchableOpacity>
         </View>
     )

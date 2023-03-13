@@ -1,3 +1,4 @@
+import bdDevs from "./bdDevs";
 
 import Booster from "./replugged/Booster";
 import BugHunter from "./replugged/BugHunter";
@@ -10,6 +11,7 @@ import Translator from "./replugged/Translator";
 
 
 export default {
+    bdDevs,
     Booster,
     BugHunter,
     Contributor,
