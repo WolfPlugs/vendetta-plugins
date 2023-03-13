@@ -1,10 +1,7 @@
-import { logger } from "@vendetta";
 import {
   findByDisplayName,
-  findByProps,
-  findByStoreName,
 } from "@vendetta/metro";
-import { after, before } from "@vendetta/patcher";
+import { after } from "@vendetta/patcher";
 import { ReactNative as RN, stylesheet, toasts } from "@vendetta/metro/common";
 
 import Badges from "./Icons";
@@ -72,7 +69,6 @@ const REFRESH_INTERVAL = 1000 * 60 * 30;
 
 const profileBadges = findByDisplayName("ProfileBadges", false);
 
-const svgshit = findByProps("SvgUri")
 
 let unpatch;
 
@@ -96,7 +92,6 @@ export default {
 
     unpatch = after("default", profileBadges, (args, res) => {
 
-        const { SvgUri } = svgshit
       const user = args[0]?.user;
       if (user === undefined) return;
 
@@ -106,7 +101,7 @@ export default {
         return;
       }
 
-      const { customBadgesArray, aliu, bd, enmity, goosemod, replugged } =
+      const { customBadgesArray, aliu, enmity, replugged } =
         cachUser?.badges;
 
       const custombadgesViewable = (
@@ -117,37 +112,28 @@ export default {
               source: { uri: customBadgesArray.badge }
             });
           }}>
-            <SvgUri style={styles.img} source={{ uri: customBadgesArray.badge }} />
+            <Image style={styles.img} source={{ uri: customBadgesArray.badge }} />
           </TouchableOpacity>
         </View>
       )
       const bdViewable = (
         <View key="gb-bd" style={styles.container}>
-            <TouchableOpacity key="bd-dev" onPress={() => {
-                toasts.open({
-                    content: "BetterDiscord Developer",
-                    source: { uri: 'https://raw.githubusercontent.com/WolfPlugs/vendetta-plugins/master/plugins/template/src/Icons/bd/bdDevs.png' }
-                });
-            }}>
-                <Image style={styles.img} source={{ uri:'https://raw.githubusercontent.com/WolfPlugs/vendetta-plugins/master/plugins/template/src/Icons/bd/bdDevs.png' }} />
-            </TouchableOpacity>
+                <Badges.bdDevs/>
         </View>
     )
-    let enmityViewable;
-    if (enmity.supporter) {
-        enmityViewable = (
+
+        const enmityViewable = (
             <View key="gb-enmity" style={styles.container}>
                 <TouchableOpacity key="enmity-supporter" onPress={() => {
                     toasts.open({
                         content: "Enmity Supporter",
-                        source: { uri: enmity.supporter.data.url.dark }
+                        source: { uri: enmity?.supporter?.data?.url.dark }
                     });
                 }}>
-                    <Image style={styles.img} source={{ uri: enmity.supporter.data.url.dark }} />
+                    <Image style={styles.img} source={{ uri: enmity?.supporter?.data.url.dark }} />
                 </TouchableOpacity>
             </View>
         )
-    }
 
     const goosemodSponsorViewable = (
         <View key="gb-goosemodsponsor" style={styles.container}>
@@ -241,79 +227,43 @@ export default {
 
     const replugbooster = (
         <View key="gb-replugbooster" style={styles.container}>
-            <TouchableOpacity key="replugbooster" onPress={() => {
-                toasts.open({
-                    content: "Replug Booster",
-                    source: { uri: Badges.Booster }
-                });
-            }}>
-                <SvgUri style={styles.img} source={{ uri: Badges.Booster }} />
-            </TouchableOpacity>
+                <Badges.Booster/>
         </View>
     )
 
     const replugBugHunter = (
         <View key="gb-replugbughunter" style={styles.container}>
-            <TouchableOpacity key="replugbughunter" onPress={() => {
-                toasts.open({
-                    content: "Replug Bug Hunter",
-                    source: { uri: Badges.BugHunter }
-                });
-            }}>
-                <SvgUri style={styles.img} source={{ uri: Badges.BugHunter }} />
-            </TouchableOpacity>
+                <Badges.BugHunter />
         </View>
     )
 
     const replugContributor = (
         <View key="gb-replugcontributor" style={styles.container}>
-            <TouchableOpacity key="replugcontributor" onPress={() => {
-                toasts.open({
-                    content: "Replug Contributor",
-                    source: { uri: Badges.Contributor }
-                });
-            }}>
-                <SvgUri style={styles.img} source={{ uri: Badges.Contributor }} />
-            </TouchableOpacity>
+                <Badges.Contributor/>
         </View>
     )
 
     const replugDev = (
         <View key="gb-replugdev" style={styles.container}>
-            <TouchableOpacity key="replugdev" onPress={() => {
-                toasts.open({
-                    content: "Replug Developer",
-                    source: { uri: Badges.Developer }
-                });
-            }}>
-                <SvgUri style={styles.img} source={{ uri: Badges.Developer }} />
-            </TouchableOpacity>
+                <Badges.Developer/>
         </View>
     )
 
     const replugEarlyUser = (
         <View key="gb-replugearlyuser" style={styles.container}>
-            <TouchableOpacity key="replugearlyuser" onPress={() => {
-                toasts.open({
-                    content: "Replug Early User",
-                    source: { uri: Badges.EarlyUser }
-                });
-            }}>
-                <SvgUri style={styles.img} source={{ uri: Badges.EarlyUser }} />
-            </TouchableOpacity>
+                <Badges.EarlyUser />
         </View>
     )
 
     const replugStaff = (
         <View key="gb-replugstaff" style={styles.container}>
-            <TouchableOpacity key="replugstaff" onPress={() => {
-                toasts.open({
-                    content: "Replug Staff",
-                    source: { uri: Badges.Staff }
-                });
-            }}>
-                <SvgUri style={styles.img} source={{ uri: Badges.Staff }} />
-            </TouchableOpacity>
+                <Badges.Staff />
+        </View>
+    )
+
+    const replugTranslator = (
+        <View key="gb-replugtranslator" style={styles.container}>
+                <Badges.Translator/>
         </View>
     )
 
@@ -330,40 +280,31 @@ export default {
         </View>
     )
 
-    const replugTranslator = (
-        <View key="gb-replugtranslator" style={styles.container}>
-            <TouchableOpacity key="replugtranslator" onPress={() => {
-                toasts.open({
-                    content: "Replug Translator",
-                    source: { uri: Badges.Translator }
-                });
-            }}>
-                <SvgUri style={styles.img} source={{ uri: Badges.Translator }} />
-            </TouchableOpacity>
-        </View>
-    )
 
-      if (!res) return custombadgesViewable;
-      if (customBadgesArray.badge) res.props.children.push(custombadgesViewable);
-      if (bd.dev) res.props.children.push(bdViewable);
-      if (enmity) res.props.children.push(enmityViewable);
-      if (goosemod.sponsor) res.props.children.push(goosemodSponsorViewable);
-      if (goosemod.dev) res.props.children.push(goosemodDevViewable);
-      if (goosemod.translator) res.props.children.push(goosemodTranslatorViewable);
-      if (aliu.dev) res.props.children.push(aliDev);
-      if (aliu.donor) res.props.children.push(aliDonor);
-      if (aliu.contributor) res.props.children.push(aliContributor);
-      if (aliu.custom) res.props.children.push(aliCustom);
-      if (replugged.booster) res.props.children.push(replugbooster);
-      if (replugged.hunter) res.props.children.push(replugBugHunter);
-      if (replugged.contributor) res.props.children.push(replugContributor);
-      if (replugged.developer) res.props.children.push(replugDev);
-      if (replugged.early) res.props.children.push(replugEarlyUser);
-      if (replugged.staff) res.props.children.push(replugStaff);
-      if (replugged.translator) res.props.children.push(replugTranslator);
-      if (replugged.custom) res.props.children.push(replugCustom);
 
-      return;
+    const Badge = {
+        custombadgesViewable,
+        bdViewable,
+        enmityViewable,
+        goosemodSponsorViewable,
+        goosemodDevViewable,
+        goosemodTranslatorViewable,
+        aliDev,
+        aliDonor,
+        aliContributor,
+        aliCustom,
+        replugbooster,
+        replugBugHunter,
+        replugContributor,
+        replugDev,
+        replugEarlyUser,
+        replugStaff,
+        replugTranslator,
+        replugCustom,
+    };
+
+    getBadgesElements(cachUser?.badges, Badge, res)
+
     });
   },
   onUnload: () => {
@@ -389,4 +330,36 @@ async function fetchbadges(userId: string) {
   }
 
   return cache.get(userId)!.badges;
+}
+
+function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
+    const badgeTypes = [
+        { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
+        { condition: badges.bd.dev, component: Badge.bdViewable },
+        { condition: badges.enmity, component: Badge.enmityViewable },
+        { condition: badges.goosemod.sponsor, component: Badge.goosemodSponsorViewable },
+        { condition: badges.goosemod.dev, component: Badge.goosemodDevViewable },
+        { condition: badges.goosemod.translator, component: Badge.goosemodTranslatorViewable },
+        { condition: badges.aliu.dev, component: Badge.aliDev },
+        { condition: badges.aliu.donor, component: Badge.aliDonor },
+        { condition: badges.aliu.contributor, component: Badge.aliContributor },
+        { condition: badges.aliu.custom, component: Badge.aliCustom },
+        { condition: badges.replugged.booster, component: Badge.replugbooster },
+        { condition: badges.replugged.hunter, component: Badge.replugBugHunter },
+        { condition: badges.replugged.contributor, component: Badge.replugContributor },
+        { condition: badges.replugged.developer, component: Badge.replugDev },
+        { condition: badges.replugged.early, component: Badge.replugEarlyUser },
+        { condition: badges.replugged.staff, component: Badge.replugStaff },
+        { condition: badges.replugged.translator, component: Badge.replugTranslator },
+        { condition: badges.replugged.custom?.name && badges.replugged.custom.icon, component: Badge.replugCustom },
+      ];
+    addBadges(res, badgeTypes);
+}
+
+async function addBadges (res: any, badges) {
+    for (const badge of badges) {
+        if (badge.condition) {
+          res.props.children.push(badge.component);
+        }
+    }
 }

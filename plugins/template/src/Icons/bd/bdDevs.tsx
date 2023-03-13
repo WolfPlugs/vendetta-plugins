@@ -1,7 +1,8 @@
-import { React } from "@vendetta/metro/common";
+import { findByProps } from "@vendetta/metro";
+const { SvgXml } = findByProps("Circle", "Rect", "Shape")
 
-export default `
-  <svg viewBox="0 0 2000 2000", {...props}>
+const bdDevsSvg = `
+  <svg viewBox="0 0 2000 2000">
     <g>
       <path
         fill="#3E82E5"
@@ -14,3 +15,5 @@ export default `
     </g>
   </svg>
 `;
+
+export default () => <SvgXml height={24} width={24} xml={bdDevsSvg} />
