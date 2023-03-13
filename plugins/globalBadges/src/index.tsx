@@ -121,7 +121,6 @@ export default {
     });
 
     unpatch = after("default", profileBadges, (args, res) => {
-
       const user = args[0]?.user;
       if (user === undefined) return;
 
@@ -391,6 +390,7 @@ export default {
 
     getBadgesElements(cachUser?.badges, Badge, res)
 
+
     });
   },
   onUnload: () => {
@@ -420,7 +420,7 @@ async function fetchbadges(userId: string) {
 
 function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
   let badgeTypes
-  if(!window.enmity) {
+  if(window.enmity) {
     badgeTypes = [
       { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
       { condition: badges.bd.dev, component: Badge.bdViewable },
@@ -440,7 +440,7 @@ function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
       { condition: badges.replugged.translator, component: Badge.replugTranslator },
       { condition: badges.replugged.custom?.name && badges.replugged.custom.icon, component: Badge.replugCustom },
     ];
-  } else if(!window.aliucord) {
+  } else if(window.aliucord) {
       badgeTypes = [
         { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
         { condition: badges.bd.dev, component: Badge.bdViewable },
