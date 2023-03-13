@@ -1,4 +1,4 @@
-import bdDevs from "./bdDevs";
+import bdDevs from "./bd/bdDevs";
 
 import Booster from "./replugged/Booster";
 import BugHunter from "./replugged/BugHunter";
