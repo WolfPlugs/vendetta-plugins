@@ -419,7 +419,50 @@ async function fetchbadges(userId: string) {
 }
 
 function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
-    const badgeTypes = [
+  let badgeTypes
+  if(!window.enmity) {
+    badgeTypes = [
+      { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
+      { condition: badges.bd.dev, component: Badge.bdViewable },
+      { condition: badges.goosemod.sponsor, component: Badge.goosemodSponsorViewable },
+      { condition: badges.goosemod.dev, component: Badge.goosemodDevViewable },
+      { condition: badges.goosemod.translator, component: Badge.goosemodTranslatorViewable },
+      { condition: badges.aliu.dev, component: Badge.aliDev },
+      { condition: badges.aliu.donor, component: Badge.aliDonor },
+      { condition: badges.aliu.contributor, component: Badge.aliContributor },
+      { condition: badges.aliu.custom, component: Badge.aliCustom },
+      { condition: badges.replugged.booster, component: Badge.replugbooster },
+      { condition: badges.replugged.hunter, component: Badge.replugBugHunter },
+      { condition: badges.replugged.contributor, component: Badge.replugContributor },
+      { condition: badges.replugged.developer, component: Badge.replugDev },
+      { condition: badges.replugged.early, component: Badge.replugEarlyUser },
+      { condition: badges.replugged.staff, component: Badge.replugStaff },
+      { condition: badges.replugged.translator, component: Badge.replugTranslator },
+      { condition: badges.replugged.custom?.name && badges.replugged.custom.icon, component: Badge.replugCustom },
+    ];
+  } else if(!window.aliucord) {
+      badgeTypes = [
+        { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
+        { condition: badges.bd.dev, component: Badge.bdViewable },
+        { condition: badges.enmity, component: Badge.enmityViewable },
+        { condition: badges.enmity.contributor, component: Badge.enmityContributorViewable },
+        { condition: badges.enmity.dev, component: Badge.enmityDevViewable },
+        { condition: badges.enmity.staff, component: Badge.enmityStaffViewable },
+        { condition: badges.enmity, component: Badge.enmityCustomViewable },
+        { condition: badges.goosemod.sponsor, component: Badge.goosemodSponsorViewable },
+        { condition: badges.goosemod.dev, component: Badge.goosemodDevViewable },
+        { condition: badges.goosemod.translator, component: Badge.goosemodTranslatorViewable },
+        { condition: badges.replugged.booster, component: Badge.replugbooster },
+        { condition: badges.replugged.hunter, component: Badge.replugBugHunter },
+        { condition: badges.replugged.contributor, component: Badge.replugContributor },
+        { condition: badges.replugged.developer, component: Badge.replugDev },
+        { condition: badges.replugged.early, component: Badge.replugEarlyUser },
+        { condition: badges.replugged.staff, component: Badge.replugStaff },
+        { condition: badges.replugged.translator, component: Badge.replugTranslator },
+        { condition: badges.replugged.custom?.name && badges.replugged.custom.icon, component: Badge.replugCustom },
+      ];
+    } else {
+      badgeTypes = [
         { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
         { condition: badges.bd.dev, component: Badge.bdViewable },
         { condition: badges.enmity, component: Badge.enmityViewable },
@@ -443,10 +486,12 @@ function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
         { condition: badges.replugged.translator, component: Badge.replugTranslator },
         { condition: badges.replugged.custom?.name && badges.replugged.custom.icon, component: Badge.replugCustom },
       ];
+    }
     addBadges(res, badgeTypes);
 }
 
 async function addBadges (res: any, badges) {
+  if(!res) return;
     for (const badge of badges) {
         if (badge.condition) {
           res.props.children.push(badge.component);
