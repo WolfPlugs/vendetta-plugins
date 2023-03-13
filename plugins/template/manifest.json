@@ -1,10 +1,10 @@
 {
     "name": "Global Badges",
-    "description": "A plugin for use as a template.",
+    "description": "Add badges from other clients to your profile or other users' profiles.",
     "authors": [
         {
-            "name": "You!",
-            "id": "YOUR_ID_HERE"
+            "name": "Wolfkid",
+            "id": "347096063569559553"
         }
     ],
     "main": "src/index.tsx",
