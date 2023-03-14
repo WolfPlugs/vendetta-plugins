@@ -133,6 +133,7 @@ export default {
       const { customBadgesArray, aliu, enmity, replugged } =
         cachUser?.badges;
 
+        const colors = `#${replugged.custom?.color  ||  '7289da'}`
       const custombadgesViewable = (
         <View key="gb-custom" style={styles.container}>
           <TouchableOpacity key={customBadgesArray.badge} onPress={() => {
@@ -308,43 +309,85 @@ export default {
 
     const replugbooster = (
         <View key="gb-replugbooster" style={styles.container}>
-                <Badges.Booster/>
+          <TouchableOpacity key="replugbooster" onPress={() => {
+                toasts.open({
+                    content: 'Replugged Booster',
+                });
+            }}>
+                <Badges.Booster color={colors}/>
+            </TouchableOpacity>
         </View>
     )
 
     const replugBugHunter = (
         <View key="gb-replugbughunter" style={styles.container}>
-                <Badges.BugHunter />
+          <TouchableOpacity key="replugbughunter" onPress={() => {
+                toasts.open({
+                    content: 'Replugged Bug Hunter', // Zoro the Pirate Hunter
+                });
+            }}>
+                <Badges.BugHunter color={colors}/>
+            </TouchableOpacity>
         </View>
     )
 
     const replugContributor = (
         <View key="gb-replugcontributor" style={styles.container}>
-                <Badges.Contributor/>
+          <TouchableOpacity key="replugcontributor" onPress={() => {
+                toasts.open({
+                    content: 'Replugged Contributor',
+                });
+            }}>
+                <Badges.Contributor color={colors}/>
+            </TouchableOpacity>
         </View>
     )
 
     const replugDev = (
         <View key="gb-replugdev" style={styles.container}>
-                <Badges.Developer/>
+          <TouchableOpacity key="replugdev" onPress={() => {
+                toasts.open({
+                    content: 'Replugged Developer',
+                });
+            }}>
+                <Badges.Developer color={colors} />
+            </TouchableOpacity>
         </View>
     )
 
     const replugEarlyUser = (
         <View key="gb-replugearlyuser" style={styles.container}>
-                <Badges.EarlyUser />
+          <TouchableOpacity key="replugearlyuser" onPress={() => {
+                toasts.open({
+                    content: 'Replugged Early User',
+                });
+            }}>
+                <Badges.EarlyUser color={colors} />
+            </TouchableOpacity>
         </View>
     )
 
     const replugStaff = (
         <View key="gb-replugstaff" style={styles.container}>
-                <Badges.Staff />
+          <TouchableOpacity key="replugstaff" onPress={() => {
+                toasts.open({
+                    content: 'Replugged Staff',
+                });
+            }}>
+              <Badges.Staff color={colors} />
+            </TouchableOpacity>
         </View>
     )
 
     const replugTranslator = (
         <View key="gb-replugtranslator" style={styles.container}>
-                <Badges.Translator/>
+          <TouchableOpacity key="replugtranslator" onPress={() => {
+                toasts.open({
+                    content: 'Replugged Translator',
+                });
+            }}>
+              <Badges.Translator color={colors}/>
+            </TouchableOpacity>
         </View>
     )
 
