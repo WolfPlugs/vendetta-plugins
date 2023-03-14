@@ -10,4 +10,4 @@ const early = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45">
     />
   </svg>`
 
-export default ({ color }) => <SvgXml height={24} width={24} resizeMode="contain" marginHorizontal={4} xml={early} fill={color} />
+export default ({ color }) => <SvgXml height={20} width={20} resizeMode="contain" marginHorizontal={4} xml={early} fill={color} />

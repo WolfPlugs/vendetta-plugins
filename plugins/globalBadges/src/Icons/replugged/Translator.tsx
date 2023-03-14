@@ -8,4 +8,4 @@ const translator =
     />
   </svg>`
 
-export default ({ color }) => <SvgXml height={24} width={24} resizeMode="contain" marginHorizontal={4} xml={translator} fill={color} />
+export default ({ color }) => <SvgXml height={23} width={23} resizeMode="contain" marginHorizontal={4} xml={translator} fill={color} />

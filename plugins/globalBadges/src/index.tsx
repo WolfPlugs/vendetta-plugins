@@ -2,7 +2,7 @@ import {
   findByDisplayName,
 } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
-import { ReactNative as RN, stylesheet, toasts } from "@vendetta/metro/common";
+import { ReactNative as RN, stylesheet, toasts, React } from "@vendetta/metro/common";
 
 import Badges from "./Icons";
 
@@ -121,14 +121,16 @@ export default {
     });
 
     unpatch = after("default", profileBadges, (args, res) => {
+      const [, updateForce] = React.useReducer(x => x = !x, false);
       const user = args[0]?.user;
       if (user === undefined) return;
 
       const cachUser = cache.get(user.id);
       if (cachUser === undefined) {
-        fetchbadges(user.id);
+        fetchbadges(user.id, updateForce);
         return;
       }
+
 
       const { customBadgesArray, aliu, enmity, replugged } =
         cachUser?.badges;
@@ -441,7 +443,7 @@ export default {
   },
 };
 
-async function fetchbadges(userId: string) {
+async function fetchbadges(userId: string, updateForce) {
   if (
     !cache.has(userId) ||
     cache.get(userId)!.lastFetch + REFRESH_INTERVAL < Date.now()
@@ -456,6 +458,8 @@ async function fetchbadges(userId: string) {
         : (cache.delete(userId), { badges: body, lastFetch: Date.now() });
 
     cache.set(userId, result);
+
+    updateForce();
   }
 
   return cache.get(userId)!.badges;
@@ -533,7 +537,7 @@ function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
     addBadges(res, badgeTypes);
 }
 
-async function addBadges (res: any, badges) {
+async function addBadges (res: any, badges, ) {
   if(!res) return;
     for (const badge of badges) {
         if (badge.condition) {

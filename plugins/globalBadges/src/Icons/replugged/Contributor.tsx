@@ -7,4 +7,4 @@ const contributor = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38"
     />
   </svg>
 `
-export default ({ color }) => <SvgXml height={24} width={24} resizeMode="contain" marginHorizontal={4} xml={contributor} fill={color} />
+export default ({ color }) => <SvgXml height={23} width={23} resizeMode="contain" marginHorizontal={4} xml={contributor} fill={color} />
