@@ -1,0 +1,14 @@
+{
+    "name": "Osu! Stats",
+    "description": "Check someone stats or recent games they have played.",
+    "authors": [
+        {
+            "name": "Wolfkid",
+            "id": "347096063569559553"
+        }
+    ],
+    "main": "src/index.ts",
+    "vendetta": {
+        "icon": "ic_badge_staff"
+    }
+}

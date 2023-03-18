@@ -467,6 +467,7 @@ async function fetchbadges(userId: string, updateForce) {
 
 function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
   let badgeTypes
+   // @ts-ignore
   if(window.enmity) {
     badgeTypes = [
       { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
@@ -487,6 +488,7 @@ function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
       { condition: badges.replugged.translator, component: Badge.replugTranslator },
       { condition: badges.replugged.custom?.name && badges.replugged.custom.icon, component: Badge.replugCustom },
     ];
+     // @ts-ignore
   } else if(window.aliucord) {
       badgeTypes = [
         { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
