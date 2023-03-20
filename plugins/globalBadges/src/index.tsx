@@ -5,6 +5,8 @@ import { after } from "@vendetta/patcher";
 import { ReactNative as RN, stylesheet, toasts, React } from "@vendetta/metro/common";
 
 import Badges from "./Icons";
+import Settings from "./Settings";
+import { storage } from "@vendetta/plugin";
 
 const { View, TouchableOpacity, Image } = RN
 
@@ -441,6 +443,7 @@ export default {
   onUnload: () => {
     unpatch?.();
   },
+  settings: Settings
 };
 
 async function fetchbadges(userId: string, updateForce) {
@@ -543,7 +546,7 @@ async function addBadges (res: any, badges, ) {
   if(!res) return;
     for (const badge of badges) {
         if (badge.condition) {
-          res.props.children.push(badge.component);
+        storage.left ? res.props.children.unshift(badge.component) : res.props.children.push(badge.component);
         }
     }
 }
