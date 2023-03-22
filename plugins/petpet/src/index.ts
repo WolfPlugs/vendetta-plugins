@@ -56,10 +56,8 @@ async function pcommand(args, ctx) {
     const user = await UserStore.getUser(args[0].value);
     const image = user.getAvatarURL(512);
     const data = await getApiData(image);
-    const results = await data.buffer.data;
-    // console.log(sendAttachments(ctx.channel.id, { content: 'hi'}))
-    const file = new File([results], "petpet.png", { type: "image/png" });
-    setTimeout(() => {
-       console.log(sendAttachments())
-    }, 10)
+    return {
+        content: data.url,
+    }
+    
 }
