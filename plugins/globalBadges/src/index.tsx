@@ -99,7 +99,7 @@ type BadgeCache = {
 const cache = new Map<string, BadgeCache>();
 const REFRESH_INTERVAL = 1000 * 60 * 30;
 
-const profileBadges = findByDisplayName("ProfileBadges", false);
+const profileBadges = findByName("ProfileBadges", false);
 
 
 let unpatch;
