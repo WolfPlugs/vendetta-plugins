@@ -1,5 +1,5 @@
 import {
-  findByDisplayName,
+  findByName,
 } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
 import { ReactNative as RN, stylesheet, toasts, React } from "@vendetta/metro/common";
