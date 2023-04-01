@@ -15,7 +15,7 @@ export default () => {
         <ScrollView>
         <FormSwitchRow
             label="Load Badges on left"
-            subLabel="If enabled, custom badges will load up first than the origianls badges."
+            subLabel="If enabled, custom badges will load up first than the original badges."
             leading={<FormIcon source={getAssetIDByName("ic_nitro_rep_24px")} />}
             value={storage.left}
             onValueChange={(value: boolean) => storage.left = value}
