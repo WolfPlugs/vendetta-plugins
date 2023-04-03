@@ -1,5 +1,5 @@
 import {
-  findByDisplayName,
+  findByName,
 } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
 import { ReactNative as RN, stylesheet, toasts, React } from "@vendetta/metro/common";
@@ -104,7 +104,7 @@ type ConditionComponentPair = {
 const cache = new Map<string, BadgeCache>();
 const REFRESH_INTERVAL = 1000 * 60 * 30;
 
-const profileBadges = findByDisplayName("ProfileBadges", false);
+const profileBadges = findByName("ProfileBadges", false);
 
 
 let unpatch;
@@ -477,7 +477,7 @@ async function fetchbadges(userId: string, updateForce) {
 
 
 function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
-  console.log(badges)
+
   const conditionComponentPairs: ConditionComponentPair[] = [
     { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
     { condition: badges.bd.dev, component: Badge.bdViewable },
@@ -533,15 +533,14 @@ function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
       ];
       break;
   }
-  console.log(badgeTypes)
-  // addBadges(res, badgeTypes);
+  addBadges(res, badgeTypes);
 }
 
 async function addBadges(res: any, badges) {
   if (!res) return;
   for (const badge of badges) {
     if (badge.condition) {
-      // storage.left ? res.props.children.unshift(badge.component) : res.props.children.push(badge.component);
+      storage.left ? res.props.children.unshift(badge.component) : res.props.children.push(badge.component);
     }
   }
 }
