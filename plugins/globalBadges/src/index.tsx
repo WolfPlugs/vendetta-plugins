@@ -169,7 +169,7 @@ export default {
         </View>
       )
 
-      const enmityViewable = (
+      const enmitySupportViewable = (
         <View key="gb-enmity" style={styles.container}>
           <TouchableOpacity key="enmity-supporter" onPress={() => {
             toasts.open({
@@ -452,7 +452,7 @@ export default {
       const Badge = {
         custombadgesViewable,
         bdViewable,
-        enmityViewable,
+        enmitySupportViewable,
         enmityContributorViewable,
         enmityDevViewable,
         enmityStaffViewable,
@@ -476,7 +476,7 @@ export default {
         vencordCutie
       };
 
-      getBadgesElements(cachUser?.badges, Badge, res)
+      getBadgesElements(cachUser?.badges, Badge, res, user)
 
 
     });
@@ -511,7 +511,7 @@ async function fetchbadges(userId: string, updateForce) {
 
 
 
-function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
+function getBadgesElements(badges: CustomBadges, Badge: any, res: any, user: any) {
 
   const conditionComponentPairs: ConditionComponentPair[] = [
     { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
@@ -548,21 +548,21 @@ function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
     case Boolean(window.aliucord):
       badgeTypes = [
         ...conditionComponentPairs,
-        { condition: badges.enmity, component: Badge.enmityViewable },
+        { condition: badges.enmity, component: Badge.enmitySupportViewable },
         { condition: badges.enmity.contributor, component: Badge.enmityContributorViewable },
         { condition: badges.enmity.dev, component: Badge.enmityDevViewable },
         { condition: badges.enmity.staff, component: Badge.enmityStaffViewable },
-        { condition: badges.enmity, component: Badge.enmityCustomViewable },
+        { condition: badges.enmity[user.id], component: Badge.enmityCustomViewable },
       ];
       break;
     default:
       badgeTypes = [
         ...conditionComponentPairs,
-        { condition: badges.enmity, component: Badge.enmityViewable },
+        { condition: badges.enmity.supporter, component: Badge.enmitySupportViewable },
         { condition: badges.enmity.contributor, component: Badge.enmityContributorViewable },
         { condition: badges.enmity.dev, component: Badge.enmityDevViewable },
         { condition: badges.enmity.staff, component: Badge.enmityStaffViewable },
-        { condition: badges.enmity, component: Badge.enmityCustomViewable },
+        { condition: badges.enmity[user.id], component: Badge.enmityCustomViewable },
         { condition: badges.aliu.dev, component: Badge.aliDev },
         { condition: badges.aliu.donor, component: Badge.aliDonor },
         { condition: badges.aliu.contributor, component: Badge.aliContributor },
