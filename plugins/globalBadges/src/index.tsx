@@ -88,6 +88,13 @@ interface CustomBadges {
       icon: string;
       color: string;
     };
+  } | null;
+  vencord: {
+    contributor: boolean;
+    cutie: {
+      tooltip: string;
+      image: string;
+    } | null;
   };
 }
 
@@ -97,7 +104,7 @@ type BadgeCache = {
 };
 
 type ConditionComponentPair = {
-  condition: boolean | string | object;
+  condition: boolean | undefined | string | object;
   component: any;
 };
 
@@ -139,10 +146,10 @@ export default {
       }
 
 
-      const { customBadgesArray, aliu, enmity, replugged } =
+      const { customBadgesArray, aliu, enmity, replugged, vencord } =
         cachUser?.badges;
 
-      const colors = `#${replugged.custom?.color || '7289da'}`
+      const colors = `#${replugged?.custom?.color || '7289da'}`
       const custombadgesViewable = (
         <View key="gb-custom" style={styles.container}>
           <TouchableOpacity key={customBadgesArray.badge} onPress={() => {
@@ -405,11 +412,37 @@ export default {
         <View key="gb-replugcustom" style={styles.container}>
           <TouchableOpacity key="replugcustom" onPress={() => {
             toasts.open({
-              content: replugged.custom.name,
-              source: { uri: replugged.custom.icon }
+              content: replugged?.custom.name,
+              source: { uri: replugged?.custom.icon }
             });
           }}>
-            <Image style={styles.img} source={{ uri: replugged.custom.icon }} />
+            <Image style={styles.img} source={{ uri: replugged?.custom.icon }} />
+          </TouchableOpacity>
+        </View>
+      )
+
+      const vencordContributor = (
+        <View key="gb-vencordContributor" style={styles.container}>
+          <TouchableOpacity key="ali-vencordContributor" onPress={() => {
+            toasts.open({
+              content: "Vencord Contributor",
+              source: { uri: 'https://cdn.discordapp.com/attachments/1033680203433660458/1092089947126780035/favicon.png' }
+            });
+          }}>
+            <Image style={styles.img} source={{ uri: 'https://cdn.discordapp.com/attachments/1033680203433660458/1092089947126780035/favicon.png' }} />
+          </TouchableOpacity>
+        </View>
+      )
+
+      const vencordCutie = (
+        <View key="gb-vencordCutie" style={styles.container}>
+          <TouchableOpacity key="vencordCutie" onPress={() => {
+            toasts.open({
+              content: vencord.cutie?.tooltip,
+              source: { uri: vencord.cutie?.image }
+            });
+          }}>
+            <Image style={styles.img} source={{ uri: vencord.cutie?.image }} />
           </TouchableOpacity>
         </View>
       )
@@ -439,6 +472,8 @@ export default {
         replugStaff,
         replugTranslator,
         replugCustom,
+        vencordContributor,
+        vencordCutie
       };
 
       getBadgesElements(cachUser?.badges, Badge, res)
@@ -484,14 +519,16 @@ function getBadgesElements(badges: CustomBadges, Badge: any, res: any) {
     { condition: badges.goosemod.sponsor, component: Badge.goosemodSponsorViewable },
     { condition: badges.goosemod.dev, component: Badge.goosemodDevViewable },
     { condition: badges.goosemod.translator, component: Badge.goosemodTranslatorViewable },
-    { condition: badges.replugged.booster, component: Badge.replugbooster },
-    { condition: badges.replugged.hunter, component: Badge.replugBugHunter },
-    { condition: badges.replugged.contributor, component: Badge.replugContributor },
-    { condition: badges.replugged.developer, component: Badge.replugDev },
-    { condition: badges.replugged.early, component: Badge.replugEarlyUser },
-    { condition: badges.replugged.staff, component: Badge.replugStaff },
-    { condition: badges.replugged.translator, component: Badge.replugTranslator },
-    { condition: badges.replugged.custom?.name && badges.replugged.custom.icon, component: Badge.replugCustom },
+    { condition: badges.replugged?.booster, component: Badge.replugbooster },
+    { condition: badges.replugged?.hunter, component: Badge.replugBugHunter },
+    { condition: badges.replugged?.contributor, component: Badge.replugContributor },
+    { condition: badges.replugged?.developer, component: Badge.replugDev },
+    { condition: badges.replugged?.early, component: Badge.replugEarlyUser },
+    { condition: badges.replugged?.staff, component: Badge.replugStaff },
+    { condition: badges.replugged?.translator, component: Badge.replugTranslator },
+    { condition: badges.replugged?.custom?.name && badges.replugged.custom.icon, component: Badge.replugCustom },
+    { condition: badges.vencord?.contributor, component: Badge.vencordContributor },
+    { condition: badges.vencord?.cutie?.tooltip && badges.vencord.cutie.image, component: Badge.vencordCutie }
   ];
 
   let badgeTypes: ConditionComponentPair[] = [];
