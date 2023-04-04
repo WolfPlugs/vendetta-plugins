@@ -18,7 +18,7 @@ export default {
                 {
                     name: "user",
                     description: "name or id of the user",
-                    type: 9,
+                    type: 6,
                     required: true,
                     displayName: "User",
                     displayDescription: "Name or Id of the user",
