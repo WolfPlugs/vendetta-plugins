@@ -59,9 +59,9 @@ export default {
           size={Array.isArray(style) ? style.find(r => r.paddingVertical && r.paddingHorizontal) ? 16 : 22 : 16}
           margin={Array.isArray(style) ? 2 : 6}
         />;
-
-        if (res.props.badges) res.props.badges.push(<RenderableBadge />);
-        else res.props.children.push(<RenderableBadge />);
+        const pushOrUnpush = storage.left;
+        if (res.props.badges) pushOrUnpush ? res.props.badges.unshit(<RenderableBadge />) : res.props.badges.push(<RenderableBadge />);
+        else pushOrUnpush ? res.props.children.unshit(<RenderableBadge />) : res.props.children.push(<RenderableBadge />);
       };
 
       Object.entries(cachUser?.badges).forEach(([key, value]): any => {
@@ -302,77 +302,4 @@ async function fetchbadges(userId: string, updateForce) {
   }
 
   return cache.get(userId)!.badges;
-}
-
-
-
-function getBadgesElements(badges: CustomBadges, Badge: any, res: any, user: any) {
-
-  const conditionComponentPairs: ConditionComponentPair[] = [
-    { condition: badges.customBadgesArray.badge, component: Badge.custombadgesViewable },
-    { condition: badges.bd.dev, component: Badge.bdViewable },
-    { condition: badges.goosemod.sponsor, component: Badge.goosemodSponsorViewable },
-    { condition: badges.goosemod.dev, component: Badge.goosemodDevViewable },
-    { condition: badges.goosemod.translator, component: Badge.goosemodTranslatorViewable },
-    { condition: badges.replugged?.booster, component: Badge.replugbooster },
-    { condition: badges.replugged?.hunter, component: Badge.replugBugHunter },
-    { condition: badges.replugged?.contributor, component: Badge.replugContributor },
-    { condition: badges.replugged?.developer, component: Badge.replugDev },
-    { condition: badges.replugged?.early, component: Badge.replugEarlyUser },
-    { condition: badges.replugged?.staff, component: Badge.replugStaff },
-    { condition: badges.replugged?.translator, component: Badge.replugTranslator },
-    { condition: badges.replugged?.custom?.name && badges.replugged.custom.icon, component: Badge.replugCustom },
-    { condition: badges.vencord?.contributor, component: Badge.vencordContributor },
-    { condition: badges.vencord?.cutie?.tooltip && badges.vencord.cutie.image, component: Badge.vencordCutie }
-  ];
-
-  let badgeTypes: ConditionComponentPair[] = [];
-
-  switch (true) {
-    // @ts-ignore
-    case Boolean(window.enmity):
-      badgeTypes = [
-        ...conditionComponentPairs,
-        { condition: badges.aliu.dev, component: Badge.aliDev },
-        { condition: badges.aliu.donor, component: Badge.aliDonor },
-        { condition: badges.aliu.contributor, component: Badge.aliContributor },
-        { condition: badges.aliu.custom, component: Badge.aliCustom },
-      ];
-      break;
-    // @ts-ignore
-    case Boolean(window.aliucord):
-      badgeTypes = [
-        ...conditionComponentPairs,
-        { condition: badges.enmity, component: Badge.enmitySupportViewable },
-        { condition: badges.enmity.contributor, component: Badge.enmityContributorViewable },
-        { condition: badges.enmity.dev, component: Badge.enmityDevViewable },
-        { condition: badges.enmity.staff, component: Badge.enmityStaffViewable },
-        { condition: badges.enmity[user.id], component: Badge.enmityCustomViewable },
-      ];
-      break;
-    default:
-      badgeTypes = [
-        ...conditionComponentPairs,
-        { condition: badges.enmity.supporter, component: Badge.enmitySupportViewable },
-        { condition: badges.enmity.contributor, component: Badge.enmityContributorViewable },
-        { condition: badges.enmity.dev, component: Badge.enmityDevViewable },
-        { condition: badges.enmity.staff, component: Badge.enmityStaffViewable },
-        { condition: badges.enmity[user.id], component: Badge.enmityCustomViewable },
-        { condition: badges.aliu.dev, component: Badge.aliDev },
-        { condition: badges.aliu.donor, component: Badge.aliDonor },
-        { condition: badges.aliu.contributor, component: Badge.aliContributor },
-        { condition: badges.aliu.custom, component: Badge.aliCustom },
-      ];
-      break;
-  }
-  addBadges(res, badgeTypes);
-}
-
-async function addBadges(res: any, badges) {
-  if (!res) return;
-  for (const badge of badges) {
-    if (badge.condition) {
-      storage.left ? res.props.children.unshift(badge.component) : res.props.children.push(badge.component);
-    }
-  }
 }
