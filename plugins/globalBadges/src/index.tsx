@@ -1,6 +1,4 @@
-import {
-  findByName,
-} from "@vendetta/metro";
+import { findByName } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
 import { ReactNative as RN, stylesheet, toasts, React } from "@vendetta/metro/common";
 
@@ -8,95 +6,11 @@ import Badges from "./Icons";
 import Settings from "./Settings";
 import { storage } from "@vendetta/plugin";
 
+import { BadgeProps, CustomBadges } from "./types";
+import { BadgeComponent } from "./badgeComponent";
 const { View, TouchableOpacity, Image } = RN
 
-interface CustomBadges {
-  customBadgesArray: {
-    badge: string;
-    name: string;
-  };
-  aliu: {
-    dev: boolean;
-    donor: boolean;
-    contributor: boolean;
-    custom: {
-      url: string;
-      text: string;
-    };
-  };
-  bd: {
-    dev: boolean;
-  };
-  enmity: {
-    supporter: {
-      data: {
-        name: string;
-        id: string;
-        url: {
-          dark: string;
-          light: string;
-        };
-      };
-    };
-    staff: {
-      data: {
-        name: string;
-        id: string;
-        url: {
-          dark: string;
-          light: string;
-        };
-      };
-    };
-    dev: {
-      data: {
-        name: string;
-        id: string;
-        url: {
-          dark: string;
-          light: string;
-        };
-      };
-    };
-    contributor: {
-      data: {
-        name: string;
-        id: string;
-        url: {
-          dark: string;
-          light: string;
-        };
-      };
-    };
-  };
-  goosemod: {
-    sponsor: boolean;
-    dev: boolean;
-    translator: boolean;
-  };
-  replugged: {
-    developer: boolean;
-    staff: boolean;
-    support: boolean;
-    contributor: boolean;
-    translator: boolean;
-    hunter: boolean;
-    early: boolean;
-    booster: boolean;
-    custom: {
-      name: string;
-      icon: string;
-      color: string;
-    };
-  } | null;
-  vencord: {
-    contributor: boolean;
-    cutie: {
-      tooltip: string;
-      image: string;
-    } | null;
-  };
-}
+
 
 type BadgeCache = {
   badges: CustomBadges;
@@ -112,377 +26,257 @@ const cache = new Map<string, BadgeCache>();
 const REFRESH_INTERVAL = 1000 * 60 * 30;
 
 const profileBadges = findByName("ProfileBadges", false);
-
+const RowManager = findByName("RowManager")
 
 let unpatch;
-
+let rowPatches;
+let cachUser;
 export default {
   onLoad: () => {
 
-    const styles = stylesheet.createThemedStyleSheet({
-      container: {
-        flexDirection: "row",
-        alignItems: "center",
-        flexWrap: "wrap",
-        justifyContent: "flex-end",
-      },
-      img: {
-        width: 24,
-        height: 24,
-        resizeMode: "contain",
-        marginHorizontal: 4
-      }
-    });
 
     unpatch = after("default", profileBadges, (args, res) => {
       const [, updateForce] = React.useReducer(x => x = !x, false);
+
       const user = args[0]?.user;
       if (user === undefined) return;
 
-      const cachUser = cache.get(user.id);
+      cachUser = cache.get(user.id);
       if (cachUser === undefined) {
         fetchbadges(user.id, updateForce);
         return;
       }
 
-
-      const { customBadgesArray, aliu, enmity, replugged, vencord } =
-        cachUser?.badges;
-
+      const style = res.props.style
+      const { replugged } = cachUser?.badges;
       const colors = `#${replugged?.custom?.color || '7289da'}`
-      const custombadgesViewable = (
-        <View key="gb-custom" style={styles.container}>
-          <TouchableOpacity key={customBadgesArray.badge} onPress={() => {
-            toasts.open({
-              content: customBadgesArray.name,
-              source: { uri: customBadgesArray.badge }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: customBadgesArray.badge }} />
-          </TouchableOpacity>
-        </View>
-      )
 
-      const bdViewable = (
-        <View key="gb-bd" style={styles.container}>
-          <Badges.bdDevs />
-        </View>
-      )
+      const pushBadge = ({ name, image, custom = false }: BadgeProps) => {
+        const RenderableBadge = () => <BadgeComponent
+          custom={custom}
+          name={name}
+          image={image}
+          size={Array.isArray(style) ? style.find(r => r.paddingVertical && r.paddingHorizontal) ? 16 : 22 : 16}
+          margin={Array.isArray(style) ? 2 : 6}
+        />;
 
-      const enmitySupportViewable = (
-        <View key="gb-enmity" style={styles.container}>
-          <TouchableOpacity key="enmity-supporter" onPress={() => {
-            toasts.open({
-              content: "Enmity Supporter",
-              source: { uri: enmity?.supporter?.data?.url.dark }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: enmity?.supporter?.data.url.dark }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const enmityStaffViewable = (
-        <View key="gb-enmitystaff" style={styles.container}>
-          <TouchableOpacity key="enmity-staff" onPress={() => {
-            toasts.open({
-              content: "Enmity Staff",
-              source: { uri: enmity?.staff?.data?.url.dark }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: enmity?.staff?.data.url.dark }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const enmityDevViewable = (
-        <View key="gb-enmitydev" style={styles.container}>
-          <TouchableOpacity key="enmity-dev" onPress={() => {
-            toasts.open({
-              content: "Enmity Developer",
-              source: { uri: enmity?.dev?.data?.url.dark }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: enmity?.dev?.data.url.dark }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const enmityContributorViewable = (
-        <View key="gb-enmitycontributor" style={styles.container}>
-          <TouchableOpacity key="enmity-contributor" onPress={() => {
-            toasts.open({
-              content: "Enmity Contributor",
-              source: { uri: enmity?.contributor?.data?.url.dark }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: enmity?.contributor?.data.url.dark }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const enmityCustomViewable = (
-        <View key="gb-enmitycustom" style={styles.container}>
-          <TouchableOpacity key="enmity-custom" onPress={() => {
-            toasts.open({
-              content: enmity[user.id]?.data?.name,
-              source: { uri: enmity[user.id]?.data?.url.dark }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: enmity[user.id]?.data?.url.dark }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const goosemodSponsorViewable = (
-        <View key="gb-goosemodsponsor" style={styles.container}>
-          <TouchableOpacity key="goosemod-sponsor" onPress={() => {
-            toasts.open({
-              content: "GooseMod Sponsor",
-              source: { uri: 'https://goosemod.com/img/goose_globe.png' }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: 'https://goosemod.com/img/goose_globe.png' }} />
-          </TouchableOpacity>
-        </View>
-      )
-      const goosemodDevViewable = (
-        <View key="gb-goosemoddev" style={styles.container}>
-          <TouchableOpacity key="goosemod-dev" onPress={() => {
-            toasts.open({
-              content: "GooseMod Developer",
-              source: { uri: 'https://goosemod.com/img/goose_glitch.jpg' }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: 'https://goosemod.com/img/goose_glitch.jpg' }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const goosemodTranslatorViewable = (
-        <View key="gb-goosemodtranslator" style={styles.container}>
-          <TouchableOpacity key="goosemod-translator" onPress={() => {
-            toasts.open({
-              content: "GooseMod Translator",
-              source: { uri: 'https://goosemod.com/img/goose_globe.png' }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: 'https://goosemod.com/img/goose_globe.png' }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const aliDev = (
-        <View key="gb-aliDev" style={styles.container}>
-          <TouchableOpacity key="ali-dev" onPress={() => {
-            toasts.open({
-              content: "Aliucord Developer",
-              source: { uri: 'https://cdn.discordapp.com/emojis/860165259117199401.webp' }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: 'https://cdn.discordapp.com/emojis/860165259117199401.webp' }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const aliDonor = (
-        <View key="gb-aliDonor" style={styles.container}>
-          <TouchableOpacity key="ali-donor" onPress={() => {
-            toasts.open({
-              content: "Aliucord Donor",
-              source: { uri: 'https://cdn.discordapp.com/emojis/859801776232202280.webp' }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: 'https://cdn.discordapp.com/emojis/859801776232202280.webp' }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const aliContributor = (
-        <View key="gb-aliContributor" style={styles.container}>
-          <TouchableOpacity key="ali-contributor" onPress={() => {
-            toasts.open({
-              content: "Aliucord Contributor",
-              source: { uri: 'https://cdn.discordapp.com/emojis/886587553187246120.webp' }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: 'https://cdn.discordapp.com/emojis/886587553187246120.webp' }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const aliCustom = (
-        <View key="gb-aliCustom" style={styles.container}>
-          <TouchableOpacity key="ali-custom" onPress={() => {
-            toasts.open({
-              content: aliu.custom.text,
-              source: { uri: aliu.custom.url }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: aliu.custom.url }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const replugbooster = (
-        <View key="gb-replugbooster" style={styles.container}>
-          <TouchableOpacity key="replugbooster" onPress={() => {
-            toasts.open({
-              content: 'Replugged Booster',
-            });
-          }}>
-            <Badges.Booster color={colors} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const replugBugHunter = (
-        <View key="gb-replugbughunter" style={styles.container}>
-          <TouchableOpacity key="replugbughunter" onPress={() => {
-            toasts.open({
-              content: 'Replugged Bug Hunter', // Zoro the Pirate Hunter
-            });
-          }}>
-            <Badges.BugHunter color={colors} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const replugContributor = (
-        <View key="gb-replugcontributor" style={styles.container}>
-          <TouchableOpacity key="replugcontributor" onPress={() => {
-            toasts.open({
-              content: 'Replugged Contributor',
-            });
-          }}>
-            <Badges.Contributor color={colors} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const replugDev = (
-        <View key="gb-replugdev" style={styles.container}>
-          <TouchableOpacity key="replugdev" onPress={() => {
-            toasts.open({
-              content: 'Replugged Developer',
-            });
-          }}>
-            <Badges.Developer color={colors} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const replugEarlyUser = (
-        <View key="gb-replugearlyuser" style={styles.container}>
-          <TouchableOpacity key="replugearlyuser" onPress={() => {
-            toasts.open({
-              content: 'Replugged Early User',
-            });
-          }}>
-            <Badges.EarlyUser color={colors} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const replugStaff = (
-        <View key="gb-replugstaff" style={styles.container}>
-          <TouchableOpacity key="replugstaff" onPress={() => {
-            toasts.open({
-              content: 'Replugged Staff',
-            });
-          }}>
-            <Badges.Staff color={colors} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const replugTranslator = (
-        <View key="gb-replugtranslator" style={styles.container}>
-          <TouchableOpacity key="replugtranslator" onPress={() => {
-            toasts.open({
-              content: 'Replugged Translator',
-            });
-          }}>
-            <Badges.Translator color={colors} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const replugCustom = (
-        <View key="gb-replugcustom" style={styles.container}>
-          <TouchableOpacity key="replugcustom" onPress={() => {
-            toasts.open({
-              content: replugged?.custom.name,
-              source: { uri: replugged?.custom.icon }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: replugged?.custom.icon }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const vencordContributor = (
-        <View key="gb-vencordContributor" style={styles.container}>
-          <TouchableOpacity key="ali-vencordContributor" onPress={() => {
-            toasts.open({
-              content: "Vencord Contributor",
-              source: { uri: 'https://cdn.discordapp.com/attachments/1033680203433660458/1092089947126780035/favicon.png' }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: 'https://cdn.discordapp.com/attachments/1033680203433660458/1092089947126780035/favicon.png' }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-      const vencordCutie = (
-        <View key="gb-vencordCutie" style={styles.container}>
-          <TouchableOpacity key="vencordCutie" onPress={() => {
-            toasts.open({
-              content: vencord.cutie?.tooltip,
-              source: { uri: vencord.cutie?.image }
-            });
-          }}>
-            <Image style={styles.img} source={{ uri: vencord.cutie?.image }} />
-          </TouchableOpacity>
-        </View>
-      )
-
-
-
-      const Badge = {
-        custombadgesViewable,
-        bdViewable,
-        enmitySupportViewable,
-        enmityContributorViewable,
-        enmityDevViewable,
-        enmityStaffViewable,
-        enmityCustomViewable,
-        goosemodSponsorViewable,
-        goosemodDevViewable,
-        goosemodTranslatorViewable,
-        aliDev,
-        aliDonor,
-        aliContributor,
-        aliCustom,
-        replugbooster,
-        replugBugHunter,
-        replugContributor,
-        replugDev,
-        replugEarlyUser,
-        replugStaff,
-        replugTranslator,
-        replugCustom,
-        vencordContributor,
-        vencordCutie
+        if (res.props.badges) res.props.badges.push(<RenderableBadge />);
+        else res.props.children.push(<RenderableBadge />);
       };
 
-      getBadgesElements(cachUser?.badges, Badge, res, user)
+      Object.entries(cachUser?.badges).forEach(([key, value]): any => {
+        switch (key) {
+          case "customBadgesArray":
+            if (value) {
+              pushBadge({
+                name: value.name,
+                image: value.badge,
+              });
+            }
+            break;
+          case "aliu":
+            if (value?.dev) {
+              pushBadge({
+                name: "Aliucord Dev",
+                image: "https://cdn.discordapp.com/emojis/860165259117199401.webp",
+              });
+            }
+            if(value?.donor) {
+              pushBadge({
+                name: "Aliucord Donor",
+                image: "https://cdn.discordapp.com/emojis/859801776232202280.webp",
+              });
+            }
+            if(value?.contributor) {
+              pushBadge({
+                name: "Aliucord Contributor",
+                image: "https://cdn.discordapp.com/emojis/886587553187246120.webp",
+              });
+            }
+            break;
+          case "bd":
+            if (value?.dev) {
+              pushBadge({
+                name: "BD Dev",
+                image: "",
+                custom: <Badges.bdDevs />
+              });
+            }
+            break;
+          case "enmity":
+            if (value?.supporter?.data) {
+              pushBadge({
+                name: "Enmity Supporter",
+                image: value?.supporter?.data.url.dark,
 
+              });
+            }
+            if (value?.staff?.data) {
+              pushBadge({
+                name: "Enmity Staff",
+                image: value?.staff?.data.url.dark,
+              });
+            }
+            if (value?.dev?.data) {
+              pushBadge({
+                name: "Enmity Dev",
+                image: value?.dev?.data.url.dark,
+              });
+            }
+            if (value?.contributor?.data) {
+              pushBadge({
+                name: "Enmity Contributor",
+                image: value?.contributor?.data.url.dark,
+              });
+            }
+            if (value[user.id]?.data) {
+              pushBadge({
+                name: "Enmity User",
+                image: value[user.id]?.data.url.dark,
+              });
+            }
+            break;
+          case "goosemod":
+            if (value?.sponsor) {
+              pushBadge({
+                name: "GooseMod Sponsor",
+                image: "https://goosemod.com/img/goose_globe.png",
+              });
+            }
+            if (value?.dev) {
+              pushBadge({
+                name: "GooseMod Dev",
+                image: "https://goosemod.com/img/goose_glitch.jpg",
+              });
+            }
+            if (value?.translator) {
+              pushBadge({
+                name: "GooseMod Translator",
+                image: "https://goosemod.com/img/goose_globe.png",
+              });
+            }
+            break;
+          case "replugged":
+            if (value?.developer) {
+              pushBadge({
+                name: "Replugged Developer",
+                image: "",
+                custom: <Badges.Developer color={colors} />
+              });
+            }
+            if (value?.staff) {
+              pushBadge({
+                name: "Replugged Staff",
+                image: "",
+                custom: <Badges.Staff color={colors} />
+              });
+            }
+            if (value?.support) {
+              pushBadge({
+                name: "Replugged Support",
+                image: "",
+                custom: <Badges.Support color={colors} />
+              });
+            }
+            if (value?.contributor) {
+              pushBadge({
+                name: "Replugged Contributor",
+                image: "",
+                custom: <Badges.Contributor color={colors} />
+              });
+            }
+            if (value?.translator) {
+              pushBadge({
+                name: "Replugged Translator",
+                image: "",
+                custom: <Badges.Translator color={colors} />
+              });
+            }
+            if (value?.hunter) {
+              pushBadge({
+                name: "Replugged Hunter",
+                image: "",
+                custom: <Badges.BugHunter color={colors} />
+              });
+            }
+            if (value?.early) {
+              pushBadge({
+                name: "Replugged Early Access",
+                image: "",
+                custom: <Badges.EarlyUser color={colors} />
+              });
+            }
+            if (value?.booster) {
+              pushBadge({
+                name: "Replugged Booster",
+                image: "",
+                custom: <Badges.Booster color={colors} />
+              });
+            }
+            if (value?.custom) {
+              pushBadge({
+                name: value.custom.name,
+                image: value.custom.icon,
+              });
+            }
+            break;
+          case "vencord":
+            if (value?.contributor) {
+              pushBadge({
+                name: "Vencord Contributor",
+                image: "https://cdn.discordapp.com/attachments/1033680203433660458/1092089947126780035/favicon.png",
+              });
+            }
+            if (value?.cutie) {
+              pushBadge({
+                name: value.cutie.tooltip,
+                image: value.cutie.image,
 
+              });
+            }
+            break;
+          default:
+            break;
+        }
+      })
+      
     });
+
+    // rowPatches = after("generate", RowManager.prototype, ([row], { message }) => {
+    //   // const [, updateForce] = React.useReducer(x => x = !x, false);
+
+    //   if (row.rowType !== 1) return
+    //   // if (message.roleIcon) return
+    //   cachUser = cache.get(message.authorId);
+    //   if (cachUser === undefined) {
+    //     fetchbadges(message.authorId, false);
+    //     return;
+    //   }
+
+    //   const { customBadgesArray } =
+    //     cachUser?.badges;
+    //   if (!customBadgesArray.badge) return
+
+    //   message.roleIcon = {
+    //     source: customBadgesArray.badge,
+    //     name: customBadgesArray.name,
+    //     size: 18,
+    //     alt: `Custom Badge, ${customBadgesArray.name}`
+    //   }
+    //   console.log(message.roleIcon)
+    //   return
+
+    //   //roleIcon:
+    //   //  { source: 'https://cdn.discordapp.com/role-icons/984258942613991444/12f87f0471446c0e757e6f79d3f1a625.webp?quality=lossless',
+    //   //  name: 'Light Cornflower Blue',
+    //   //  size: 18,
+    //   //  unicodeEmoji: undefined,
+    //   //  alt: 'Role icon, Light Cornflower Blue' }
+    // })
   },
   onUnload: () => {
     unpatch?.();
+    rowPatches?.();
   },
   settings: Settings
 };
@@ -492,6 +286,7 @@ async function fetchbadges(userId: string, updateForce) {
     !cache.has(userId) ||
     cache.get(userId)!.lastFetch + REFRESH_INTERVAL < Date.now()
   ) {
+
     const res = await fetch(
       `https://api.obamabot.me/v2/text/badges?user=${userId}`
     );
@@ -502,8 +297,8 @@ async function fetchbadges(userId: string, updateForce) {
         : (cache.delete(userId), { badges: body, lastFetch: Date.now() });
 
     cache.set(userId, result);
-
     updateForce();
+
   }
 
   return cache.get(userId)!.badges;
