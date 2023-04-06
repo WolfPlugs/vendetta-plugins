@@ -5,23 +5,22 @@ const UserStore = findByStoreName("UserStore");
 const { sendAttachments } = findByProps("sendAttachments");
 let command;
 
-
 export default {
     onLoad: () => {
         command = registerCommand({ 
             name: "petpet",
-            displayName: "PetPet",
-            displayDescription: "pet someone with a petpet",
-            description: "pet someone with a petpet",
+            displayName: "petpet",
+            displayDescription: "PetPet someone",
+            description: "PetPet someone",
 
             options: [
                 {
                     name: "user",
-                    description: "name or id of the user",
-                    type: 9,
+                    description: "The user(or their id) to be patted",
+                    type: 6,
                     required: true,
-                    displayName: "User",
-                    displayDescription: "Name or Id of the user",
+                    displayName: "user",
+                    displayDescription: "The user(or their id) to be patted",
                 }
             ],
 
