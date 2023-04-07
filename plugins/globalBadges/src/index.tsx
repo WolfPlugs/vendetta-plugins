@@ -36,8 +36,11 @@ export default {
 
 
     after("default", profileBadges, (args, res) => {
+      if (!res) return;
       unpatch = after("type", res,  (args, res) => {
-        console.log(args)
+        console.log(res)
+        if(!res) return;
+        if(!res.props) return;
       const [, updateForce] = React.useReducer(x => x = !x, false);
 
       const user = args[0]?.user;
