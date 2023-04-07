@@ -1,4 +1,4 @@
-import { findByName } from "@vendetta/metro";
+import { findByProps } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
 import { ReactNative as RN, stylesheet, toasts, React } from "@vendetta/metro/common";
 
@@ -25,8 +25,8 @@ type ConditionComponentPair = {
 const cache = new Map<string, BadgeCache>();
 const REFRESH_INTERVAL = 1000 * 60 * 30;
 
-const profileBadges = findByName("ProfileBadges", false);
-const RowManager = findByName("RowManager")
+const profileBadges = findByProps("ProfileBadgesOld");
+// const RowManager = findByName("RowManager")
 
 let unpatch;
 let rowPatches;
@@ -35,7 +35,9 @@ export default {
   onLoad: () => {
 
 
-    unpatch = after("default", profileBadges, (args, res) => {
+    after("default", profileBadges, (args, res) => {
+      unpatch = after("type", res,  (args, res) => {
+        console.log(args)
       const [, updateForce] = React.useReducer(x => x = !x, false);
 
       const user = args[0]?.user;
@@ -60,8 +62,8 @@ export default {
           margin={Array.isArray(style) ? 2 : 6}
         />;
         const pushOrUnpush = storage.left;
-        // if (res.props.badges) pushOrUnpush ? res.props.badges.unshit(<RenderableBadge />) : res.props.badges.push(<RenderableBadge />);
-        // else pushOrUnpush ? res.props.children.unshit(<RenderableBadge />) : res.props.children.push(<RenderableBadge />);
+        if (res.props.badges) pushOrUnpush ? res.props.badges.unshit(<RenderableBadge />) : res.props.badges.push(<RenderableBadge />);
+        else pushOrUnpush ? res.props.children.unshit(<RenderableBadge />) : res.props.children.push(<RenderableBadge />);
       };
 
       Object.entries(cachUser?.badges).forEach(([key, value]): any => {
@@ -213,7 +215,7 @@ export default {
                 custom: <Badges.Booster color={colors} />
               });
             }
-            if (value?.custom) {
+            if (value?.custom?.name) {
               pushBadge({
                 name: value.custom.name,
                 image: value.custom.icon,
@@ -241,6 +243,7 @@ export default {
       })
       
     });
+  })
 
     // rowPatches = after("generate", RowManager.prototype, ([row], { message }) => {
     //   // const [, updateForce] = React.useReducer(x => x = !x, false);
