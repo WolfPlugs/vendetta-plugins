@@ -61,8 +61,8 @@ export default {
           custom={custom}
           name={name}
           image={image}
-          size={Array.isArray(style) ? style.find(r => r.paddingVertical && r.paddingHorizontal) ? 16 : 22 : 16}
-          margin={Array.isArray(style) ? 2 : 6}
+          size={Array.isArray(style) ? style?.find(r => r.paddingVertical && r.paddingHorizontal) ? 16 : 22 : 16}
+          margin={Array.isArray(style) ? 4 : 6}
         />;
         const pushOrUnpush = storage.left;
         if (res.props.badges) pushOrUnpush ? res.props.badges.unshit(<RenderableBadge />) : res.props.badges.push(<RenderableBadge />);
