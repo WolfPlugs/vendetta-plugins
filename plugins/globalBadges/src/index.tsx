@@ -65,8 +65,8 @@ export default {
           margin={Array.isArray(style) ? 4 : 6}
         />;
         const pushOrUnpush = storage.left;
-        if (res.props.badges) pushOrUnpush ? res.props.badges.unshit(<RenderableBadge />) : res.props.badges.push(<RenderableBadge />);
-        else pushOrUnpush ? res.props.children.unshit(<RenderableBadge />) : res.props.children.push(<RenderableBadge />);
+        if (res.props.badges) pushOrUnpush ? res.props.badges.unshift(<RenderableBadge />) : res.props.badges.push(<RenderableBadge />);
+        else pushOrUnpush ? res.props.children.unshift(<RenderableBadge />) : res.props.children.push(<RenderableBadge />);
       };
 
       Object.entries(cachUser?.badges).forEach(([key, value]): any => {
