@@ -9,6 +9,6 @@
     ],
     "main": "src/index.tsx",
     "vendetta": {
-        "icon": "ic_badge_staff"
+        "icon": "ic_nitro_rep_24px"
     }
 }
