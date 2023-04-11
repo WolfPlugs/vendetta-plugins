@@ -36,10 +36,9 @@ export default {
 
 
     unpatch = after("default", profileBadges, (args, res) => {
-      if (!res) return;
-      after("type", res, (args, res) => {
-        if (!res) return;
-        if (!res.props) return;
+        const mem = res.type(res.props)
+        res.type = () => mem
+
         const [, updateForce] = React.useReducer(x => x = !x, false);
 
         const user = args[0]?.user;
@@ -51,7 +50,7 @@ export default {
           return;
         }
 
-        const style = res.props.style
+        const style = mem.props.style
         const { replugged } = cachUser?.badges;
         const colors = `#${replugged?.custom?.color || '7289da'}`
 
@@ -64,8 +63,8 @@ export default {
             margin={Array.isArray(style) ? 4 : 6}
           />;
           const pushOrUnpush = storage.left;
-          if (res.props.badges) pushOrUnpush ? res.props.badges.unshift(<RenderableBadge />) : res.props.badges.push(<RenderableBadge />);
-          else pushOrUnpush ? res.props.children.unshift(<RenderableBadge />) : res.props.children.push(<RenderableBadge />);
+          if (mem.props.badges) pushOrUnpush ? mem.props.badges.unshift(<RenderableBadge />) : mem.props.badges.push(<RenderableBadge />);
+          else pushOrUnpush ? mem.props.children.unshift(<RenderableBadge />) : mem.props.children.push(<RenderableBadge />);
         };
 
         Object.entries(cachUser?.badges).forEach(([key, value]): any => {
@@ -244,7 +243,6 @@ export default {
           }
         })
 
-      });
     })
 
     // rowPatches = after("generate", RowManager.prototype, ([row], { message }) => {
