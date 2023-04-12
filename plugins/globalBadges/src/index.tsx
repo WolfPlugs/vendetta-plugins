@@ -1,7 +1,7 @@
-import { findByName, findByProps } from "@vendetta/metro";
+import { findByProps } from "@vendetta/metro";
 import { getDebugInfo } from "@vendetta/debug";
 import { after } from "@vendetta/patcher";
-import { ReactNative as RN, stylesheet, toasts, React } from "@vendetta/metro/common";
+import { ReactNative as RN, React } from "@vendetta/metro/common";
 
 import Badges from "./Icons";
 import Settings from "./Settings";
@@ -9,7 +9,6 @@ import { storage } from "@vendetta/plugin";
 
 import { BadgeProps, CustomBadges, BadgeCache } from "./types";
 import { BadgeComponent } from "./badgeComponent";
-const { View, TouchableOpacity, Image } = RN
 
 
 
@@ -235,39 +234,7 @@ export default {
           }
         })
 
-    })
-
-    // rowPatches = after("generate", RowManager.prototype, ([row], { message }) => {
-    //   // const [, updateForce] = React.useReducer(x => x = !x, false);
-
-    //   if (row.rowType !== 1) return
-    //   // if (message.roleIcon) return
-    //   cachUser = cache.get(message.authorId);
-    //   if (cachUser === undefined) {
-    //     fetchbadges(message.authorId, false);
-    //     return;
-    //   }
-
-    //   const { customBadgesArray } =
-    //     cachUser?.badges;
-    //   if (!customBadgesArray.badge) return
-
-    //   message.roleIcon = {
-    //     source: customBadgesArray.badge,
-    //     name: customBadgesArray.name,
-    //     size: 18,
-    //     alt: `Custom Badge, ${customBadgesArray.name}`
-    //   }
-    //   console.log(message.roleIcon)
-    //   return
-
-    //   //roleIcon:
-    //   //  { source: 'https://cdn.discordapp.com/role-icons/984258942613991444/12f87f0471446c0e757e6f79d3f1a625.webp?quality=lossless',
-    //   //  name: 'Light Cornflower Blue',
-    //   //  size: 18,
-    //   //  unicodeEmoji: undefined,
-    //   //  alt: 'Role icon, Light Cornflower Blue' }
-    // })
+    });
   },
   onUnload: () => {
     unpatch?.();
