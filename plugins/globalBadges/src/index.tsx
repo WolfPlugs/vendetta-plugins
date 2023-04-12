@@ -36,7 +36,7 @@ export default {
 
 
     unpatch = after("default", profileBadges, (args, res) => {
-        const mem = res.type(res.props)
+        const mem = res.type(res?.props)
         res.type = () => mem
 
         const [, updateForce] = React.useReducer(x => x = !x, false);
@@ -50,7 +50,7 @@ export default {
           return;
         }
 
-        const style = mem.props.style
+        const style = mem?.props.style
         const { replugged } = cachUser?.badges;
         const colors = `#${replugged?.custom?.color || '7289da'}`
 
@@ -62,9 +62,10 @@ export default {
             size={Array.isArray(style) ? style?.find(r => r.paddingVertical && r.paddingHorizontal) ? 16 : 22 : 16}
             margin={Array.isArray(style) ? 4 : 6}
           />;
+          
           const pushOrUnpush = storage.left;
-          if (mem.props.badges) pushOrUnpush ? mem.props.badges.unshift(<RenderableBadge />) : mem.props.badges.push(<RenderableBadge />);
-          else pushOrUnpush ? mem.props.children.unshift(<RenderableBadge />) : mem.props.children.push(<RenderableBadge />);
+          if (mem.props.badges) pushOrUnpush ? mem.props.badges = [ <RenderableBadge />, ...mem.props.badges ] : mem.props.badges = [ ...mem.props.badges, <RenderableBadge />];
+          else pushOrUnpush ? mem.props.children = [ <RenderableBadge />, ...mem.props.children ] : mem.props.children = [ ...mem.props.children, <RenderableBadge /> ];
         };
 
         Object.entries(cachUser?.badges).forEach(([key, value]): any => {
