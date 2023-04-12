@@ -42,7 +42,7 @@ export default {
 
             execute: osuCommand,
              // @ts-ignore
-            applicationId: -1,
+            applicationId: "-1",
             inputType: 1,
             type: 1,
         });
