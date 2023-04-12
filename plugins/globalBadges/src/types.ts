@@ -99,3 +99,8 @@ export interface BadgeComponents {
   margin: number;
   custom ?: object;
 }
+
+export type BadgeCache = {
+  badges: CustomBadges;
+  lastFetch: number;
+};

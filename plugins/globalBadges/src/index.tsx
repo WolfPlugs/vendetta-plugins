@@ -1,4 +1,5 @@
-import { findByProps } from "@vendetta/metro";
+import { findByName, findByProps } from "@vendetta/metro";
+import { getDebugInfo } from "@vendetta/debug";
 import { after } from "@vendetta/patcher";
 import { ReactNative as RN, stylesheet, toasts, React } from "@vendetta/metro/common";
 
@@ -6,21 +7,11 @@ import Badges from "./Icons";
 import Settings from "./Settings";
 import { storage } from "@vendetta/plugin";
 
-import { BadgeProps, CustomBadges } from "./types";
+import { BadgeProps, CustomBadges, BadgeCache } from "./types";
 import { BadgeComponent } from "./badgeComponent";
 const { View, TouchableOpacity, Image } = RN
 
 
-
-type BadgeCache = {
-  badges: CustomBadges;
-  lastFetch: number;
-};
-
-type ConditionComponentPair = {
-  condition: boolean | undefined | string | object;
-  component: any;
-};
 
 const cache = new Map<string, BadgeCache>();
 const REFRESH_INTERVAL = 1000 * 60 * 30;
@@ -33,8 +24,8 @@ let rowPatches;
 let cachUser;
 export default {
   onLoad: () => {
-
-
+    const { discord } = getDebugInfo();
+    if(discord.build < '175200') return;
     unpatch = after("default", profileBadges, (args, res) => {
         const mem = res.type(res?.props)
         res.type = () => mem
