@@ -30,7 +30,7 @@ export default {
     profileBadges = newVersion ? findByProps("ProfileBadgesOld") : findByName("ProfileBadges", false);
     unpatch = after("default", profileBadges, (args, res) => {
         const mem = newVersionChecker(res, newVersion);
-
+        if(!mem?.props?.children || !mem?.props?.badges) return
         const [, updateForce] = React.useReducer(x => x = !x, false);
 
         const user = args[0]?.user;
