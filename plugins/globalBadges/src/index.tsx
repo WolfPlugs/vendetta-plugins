@@ -246,13 +246,13 @@ export default {
 };
 
 function newVersionChecker(res, newVersion) {
-  // let returnProps = res;
+  let returnProps = res;
   // console.log(returnProps)
 
   // const mem = newVersion ? res.type(res?.props) : res;
   // if(newVersion) return returnProps = res.type = () => mem
   // else return returnProps = res;
-  return res
+  return returnProps
 
 }
 
