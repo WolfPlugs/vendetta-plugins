@@ -15,22 +15,29 @@ import { BadgeComponent } from "./badgeComponent";
 const cache = new Map<string, BadgeCache>();
 const REFRESH_INTERVAL = 1000 * 60 * 30;
 
-let profileBadges;
 // const RowManager = findByName("RowManager")
 
 let unpatch;
+let unpatch2;
 let rowPatches;
 let cachUser;
 export default {
   onLoad: () => {
     const { discord } = getDebugInfo();
-    let newVersion = false;
-    newVersion = newVersionPatcher(discord);
-
-    profileBadges = newVersion ? findByProps("ProfileBadgesOld") : findByName("ProfileBadges", false);
+    let newVersion = newVersionPatcher(discord);
+    const profileBadges = findByName("ProfileBadges", false);
     unpatch = after("default", profileBadges, (args, res) => {
-        const mem = newVersionChecker(res, newVersion);
-        if(!mem?.props?.children || !mem?.props?.badges) return
+      
+      let mem = res;
+        // if(newVersion) {
+        //   unpatch2 = after(mem, "type", (args, res) => {
+        //     console.log(res)
+        //     mem = res;
+        //   })
+        // }
+
+        console.log(mem)
+
         const [, updateForce] = React.useReducer(x => x = !x, false);
 
         const user = args[0]?.user;
@@ -42,7 +49,7 @@ export default {
           return;
         }
 
-        const style = mem?.props.style
+        const style = mem?.props?.style
         const { replugged } = cachUser?.badges;
         const colors = `#${replugged?.custom?.color || '7289da'}`
 
@@ -56,7 +63,7 @@ export default {
           />;
           
           const pushOrUnpush = storage.left;
-          if (mem.props.badges) pushOrUnpush ? mem.props.badges = [ <RenderableBadge />, ...mem.props.badges ] : mem.props.badges = [ ...mem.props.badges, <RenderableBadge />];
+          if (mem?.props?.badges) pushOrUnpush ? mem.props.badges = [ <RenderableBadge />, ...mem.props.badges ] : mem.props.badges = [ ...mem.props.badges, <RenderableBadge />];
           else pushOrUnpush ? mem.props.children = [ <RenderableBadge />, ...mem.props.children ] : mem.props.children = [ ...mem.props.children, <RenderableBadge /> ];
         };
 
@@ -240,27 +247,14 @@ export default {
   },
   onUnload: () => {
     unpatch?.();
-    rowPatches?.();
+    unpatch2?.();
   },
   settings: Settings
 };
 
-function newVersionChecker(res, newVersion) {
-  let returnProps = res;
-  // console.log(returnProps)
-
-  // const mem = newVersion ? res.type(res?.props) : res;
-  // if(newVersion) return returnProps = res.type = () => mem
-  // else return returnProps = res;
-  return returnProps
-
-}
-
 function newVersionPatcher(discord) {
-  const android = discord?.android
-  const ios = discord?.ios
-  if(android) return discord.build < '174200' ? true : false
-  else if(ios) return discord.build < '42235' ? true : false
+  if(RN.Platform.OS == 'android') return discord.build >= '174200'
+  else if(RN.Platform.OS == 'ios') return discord.build >= '42235'
   
 }
 
