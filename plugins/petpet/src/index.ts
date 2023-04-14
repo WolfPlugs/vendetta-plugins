@@ -6,7 +6,6 @@ const { uploadLocalFiles } = findByProps("uploadLocalFiles");
 const token = findByProps("getToken").getToken()
 
 let command;
-let patcher;
 export default {
   onLoad: () => {
     command = registerCommand({
@@ -15,29 +14,33 @@ export default {
       displayDescription: "PetPet someone",
       description: "PetPet someone",
 
-      options: [
-        {
-          name: "user",
-          description: "The user(or their id) to be patted",
-          type: 6,
-          required: true,
-          displayName: "user",
-          displayDescription: "The user(or their id) to be patted",
-        },
-      ],
+            options: [
+                {
+                    name: "user",
+                    description: "The user(or their id) to be patted",
+                    type: 6,
+                    required: true,
+                    displayName: "user",
+                    displayDescription: "The user(or their id) to be patted",
+                }
+            ],
 
-      execute: pcommand,
-      // @ts-ignore
-      applicationId: "-1",
-      inputType: 1,
-      type: 1,
-    });
-  },
+            execute: pcommand,
+             // @ts-ignore
+            applicationId: "-1",
+            inputType: 1,
+            type: 1,
+        });
 
-  onUnload: () => {
-    command();
-    patcher();
-  },
+        
+
+
+    },
+
+    onUnload: () => {
+        command();
+
+    },
 };
 
 async function getApiData(image: any) {
