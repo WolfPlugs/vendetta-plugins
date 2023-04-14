@@ -15,7 +15,7 @@ import { BadgeComponent } from "./badgeComponent";
 const cache = new Map<string, BadgeCache>();
 const REFRESH_INTERVAL = 1000 * 60 * 30;
 
-let profileBadges ;
+let profileBadges;
 // const RowManager = findByName("RowManager")
 
 let unpatch;
@@ -25,7 +25,7 @@ export default {
   onLoad: () => {
     const { discord } = getDebugInfo();
     let newVersion = false;
-    newVersion = ['175200', '42235'].some(e => discord.build < e) ? true : false;
+    newVersion = newVersionPatcher(discord);
 
     profileBadges = newVersion ? findByProps("ProfileBadgesOld") : findByName("ProfileBadges", false);
     unpatch = after("default", profileBadges, (args, res) => {
@@ -254,6 +254,14 @@ function newVersionChecker(res, newVersion) {
   // else return returnProps = res;
   return res
 
+}
+
+function newVersionPatcher(discord) {
+  const android = discord?.android
+  const ios = discord?.ios
+  if(android) return discord.build < '174200' ? true : false
+  else if(ios) return discord.build < '42235' ? true : false
+  
 }
 
 async function fetchbadges(userId: string, updateForce) {
