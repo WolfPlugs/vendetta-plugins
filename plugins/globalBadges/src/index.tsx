@@ -1,4 +1,4 @@
-import { findByProps } from "@vendetta/metro";
+import { findByName, findByProps } from "@vendetta/metro";
 import { getDebugInfo } from "@vendetta/debug";
 import { after } from "@vendetta/patcher";
 import { ReactNative as RN, React } from "@vendetta/metro/common";
@@ -15,7 +15,7 @@ import { BadgeComponent } from "./badgeComponent";
 const cache = new Map<string, BadgeCache>();
 const REFRESH_INTERVAL = 1000 * 60 * 30;
 
-const profileBadges = findByProps("ProfileBadgesOld");
+let profileBadges ;
 // const RowManager = findByName("RowManager")
 
 let unpatch;
@@ -24,10 +24,12 @@ let cachUser;
 export default {
   onLoad: () => {
     const { discord } = getDebugInfo();
-    if(discord.build < '175200') return;
+    let newVersion = false;
+    newVersion = ['175200', '42235'].some(e => discord.build < e) ? true : false;
+
+    profileBadges = newVersion ? findByProps("ProfileBadgesOld") : findByName("ProfileBadges", false);
     unpatch = after("default", profileBadges, (args, res) => {
-        const mem = res.type(res?.props)
-        res.type = () => mem
+        const mem = newVersionChecker(res, newVersion);
 
         const [, updateForce] = React.useReducer(x => x = !x, false);
 
@@ -242,6 +244,17 @@ export default {
   },
   settings: Settings
 };
+
+function newVersionChecker(res, newVersion) {
+  // let returnProps = res;
+  // console.log(returnProps)
+
+  // const mem = newVersion ? res.type(res?.props) : res;
+  // if(newVersion) return returnProps = res.type = () => mem
+  // else return returnProps = res;
+  return res
+
+}
 
 async function fetchbadges(userId: string, updateForce) {
   if (
