@@ -11,32 +11,20 @@ import { BadgeProps, CustomBadges, BadgeCache } from "./types";
 import { BadgeComponent } from "./badgeComponent";
 
 
+const { View } = RN;
 
 const cache = new Map<string, BadgeCache>();
 const REFRESH_INTERVAL = 1000 * 60 * 30;
 
-// const RowManager = findByName("RowManager")
-
 let unpatch;
 let unpatch2;
-let rowPatches;
 let cachUser;
 export default {
   onLoad: () => {
-    const { discord } = getDebugInfo();
-    let newVersion = newVersionPatcher(discord);
+
     const profileBadges = findByName("ProfileBadges", false);
     unpatch = after("default", profileBadges, (args, res) => {
-      
       let mem = res;
-        // if(newVersion) {
-        //   unpatch2 = after(mem, "type", (args, res) => {
-        //     console.log(res)
-        //     mem = res;
-        //   })
-        // }
-
-        console.log(mem)
 
         const [, updateForce] = React.useReducer(x => x = !x, false);
 
@@ -52,7 +40,24 @@ export default {
         const style = mem?.props?.style
         const { replugged } = cachUser?.badges;
         const colors = `#${replugged?.custom?.color || '7289da'}`
-
+        
+        // Credits here to @acquitelol
+        // https://github.com/enmity-mod/enmity/blob/8ff15a8fffc5a1ad4d41c5e8f8a02e6876a760ec/src/core/patches/badges.tsx#L81-L95
+        if (!mem) {
+          mem = <View 
+            style={[style, { 
+              flexDirection: "row", 
+              flexWrap: 'wrap', 
+              alignItems: 'flex-end',
+              justifyContent: 'flex-end',
+              paddingVertical: 2
+            }]} 
+            accessibilityRole={"list"}
+            accessibilityLabel={"User Badges"}
+          />;
+  
+          mem.props.children = [];
+        }
         const pushBadge = ({ name, image, custom = false }: BadgeProps) => {
           const RenderableBadge = () => <BadgeComponent
             custom={custom}
@@ -252,11 +257,6 @@ export default {
   settings: Settings
 };
 
-function newVersionPatcher(discord) {
-  if(RN.Platform.OS == 'android') return discord.build >= '174200'
-  else if(RN.Platform.OS == 'ios') return discord.build >= '42235'
-  
-}
 
 async function fetchbadges(userId: string, updateForce) {
   if (
