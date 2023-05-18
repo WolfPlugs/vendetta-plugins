@@ -237,11 +237,12 @@ export default {
                 image: "https://cdn.discordapp.com/attachments/1033680203433660458/1092089947126780035/favicon.png",
               });
             }
-            if (value?.cutie) {
-              pushBadge({
-                name: value.cutie.tooltip,
-                image: value.cutie.image,
-
+            if (Boolean(value?.cutie)) {
+              value.cutie.map((cutie) => {
+                pushBadge({
+                  name: cutie.tooltip,
+                  image: cutie.image,
+                });
               });
             }
             break;

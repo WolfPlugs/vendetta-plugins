@@ -79,17 +79,19 @@ export interface CustomBadges {
   } | null;
   vencord: {
     contributor: boolean;
-    cutie: {
-      tooltip: string;
-      image: string;
-    } | null;
+    cutie: [
+      {
+        tooltip: string;
+        image: string;
+      }
+    ];
   };
 }
 
 export interface BadgeProps {
   name: string;
   image: string;
-  custom ?: any;
+  custom?: any;
 }
 
 export interface BadgeComponents {
@@ -97,7 +99,7 @@ export interface BadgeComponents {
   image: string;
   size: number;
   margin: number;
-  custom ?: object;
+  custom?: object;
 }
 
 export type BadgeCache = {
