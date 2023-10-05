@@ -20,9 +20,6 @@ let unpatch2;
 let cachUser;
 export default {
   onLoad: () => {
-
-
-
     const profileBadges = findByName("ProfileBadges", false);
     unpatch = after("default", profileBadges, (args, res) => {
       let mem = res;
@@ -79,7 +76,7 @@ export default {
       Object.entries(cachUser?.badges).forEach(([key, value]): any => {
         if (storage.mods) {
           if (key !== "customBadgesArray") return;
-        } 
+        }
         if (storage.customs) {
           if (key === "customBadgesArray") return;
         }
