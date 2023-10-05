@@ -1,5 +1,4 @@
-import { findByName, findByProps } from "@vendetta/metro";
-import { getDebugInfo } from "@vendetta/debug";
+import { findByName } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
 import { ReactNative as RN, React } from "@vendetta/metro/common";
 
@@ -21,6 +20,8 @@ let unpatch2;
 let cachUser;
 export default {
   onLoad: () => {
+
+
 
     const profileBadges = findByName("ProfileBadges", false);
     unpatch = after("default", profileBadges, (args, res) => {
@@ -58,6 +59,9 @@ export default {
 
         mem.props.children = [];
       }
+      //
+
+
       const pushBadge = ({ name, image, custom = false }: BadgeProps) => {
         const RenderableBadge = () => <BadgeComponent
           custom={custom}
@@ -73,6 +77,13 @@ export default {
       };
 
       Object.entries(cachUser?.badges).forEach(([key, value]): any => {
+        if (storage.mods) {
+          if (key !== "customBadgesArray") return;
+        } 
+        if (storage.customs) {
+          if (key === "customBadgesArray") return;
+        }
+        console.log(key)
         switch (key) {
           case "customBadgesArray":
             if (value) {
