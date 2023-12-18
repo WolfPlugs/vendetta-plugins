@@ -80,7 +80,6 @@ export default {
         if (storage.customs) {
           if (key === "customBadgesArray") return;
         }
-        console.log(key)
         switch (key) {
           case "customBadgesArray":
             if (value) {
