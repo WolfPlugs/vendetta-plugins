@@ -248,7 +248,7 @@ export default {
               value.cutie.map((cutie) => {
                 pushBadge({
                   name: cutie.tooltip,
-                  image: cutie.image,
+                  image: cutie.badge,
                 });
               });
             }
