@@ -241,7 +241,7 @@ export default {
             if (value?.contributor) {
               pushBadge({
                 name: "Vencord Contributor",
-                image: "https://cdn.discordapp.com/attachments/1033680203433660458/1092089947126780035/favicon.png",
+                image: "https://vencord.dev/assets/favicon.png",
               });
             }
             if (Boolean(value?.cutie)) {
