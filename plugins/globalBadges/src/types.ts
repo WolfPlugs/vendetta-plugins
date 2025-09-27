@@ -1,3 +1,10 @@
+// Used for badgeProps in index.tsx
+export interface BadgeProps {
+  id: string;
+  source: { uri: string };
+  label: string;
+  userId: string;
+}
 export interface CustomBadges {
   customBadgesArray: {
     badge: string;
@@ -88,11 +95,11 @@ export interface CustomBadges {
   };
 }
 
-export interface BadgeProps {
-  name: string;
-  image: string;
-  custom?: any;
-}
+// export interface BadgeProps {
+//   name: string;
+//   image: string;
+//   custom?: any;
+// }
 
 export interface BadgeComponents {
   name: string;
@@ -105,4 +112,10 @@ export interface BadgeComponents {
 export type BadgeCache = {
   badges: CustomBadges;
   lastFetch: number;
+};
+
+export type BadgeGroupItem = { 
+  type: string; 
+  label: string; 
+  uri: string 
 };

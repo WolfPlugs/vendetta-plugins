@@ -6,7 +6,7 @@ import { after } from "@vendetta/patcher";
 // import { storage } from "@vendetta/plugin";
 
 import { CustomBadges, BadgeCache } from "./types";
-
+import badgeGroups from './badgeGroups';
 
 const bunny = window.bunny.api.react.jsx
 
@@ -16,14 +16,12 @@ const REFRESH_INTERVAL = 1000 * 60 * 30;
 const badgeModule = findByName("useBadges", false);
 
 
-
 let unpatch;
-let unpatch2;
 let cachUser;
 export default {
   onLoad: () => {
 
-    const badgeProps = {} as Record<string, any>;
+    const badgeProps = {} as Record<string, import("./types").BadgeProps>;
 
     bunny.onJsxCreate("ProfileBadge", (component, ret) => {
       if (ret.props.id?.startsWith("gb-")) {
@@ -58,27 +56,22 @@ export default {
         result.push(badge);
       };
 
-      Object.entries(cachUser.badges).forEach(([key, value]): any => {
-        let badgeId = `gb-${key}`;
-        switch (key) {
-          case "customBadgesArray":
-            if (value) {
-              value.badges.forEach((badge) => {
-                badgeId = `gb-${key}-${badge.name}`;
-                badgeProps[badgeId] = {
-                  id: badgeId,
-                  source: { uri: badge.badge },
-                  label: badge.name,
-                  userId: user.userId,
-                }
-                pushBadges({
-                  id: badgeId,
-                  description: badge.name,
-                  icon: "dummy",
-                })
-              })
-            }
-        }
+      Object.entries(cachUser?.badges).forEach(([key, value]): any => {
+        badgeGroups[key]?.(value, user).forEach(({ type, label, uri }) => {
+          console.log(`Adding badge: ${label}`);
+          const badgeId = `gb-${key}-${type}`;
+          badgeProps[badgeId] = {
+            id: badgeId,
+            source: { uri },
+            label,
+            userId: user.userId,
+          };
+          pushBadges({
+            id: badgeId,
+            description: label,
+            icon: "dummy",
+          });
+        });
 
       })
     });
@@ -86,7 +79,6 @@ export default {
   },
   onUnload: () => {
     unpatch?.();
-    //unpatch2?.();
   },
   //settings: Settings
 };
