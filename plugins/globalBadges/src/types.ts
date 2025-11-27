@@ -93,6 +93,29 @@ export interface CustomBadges {
       }
     ];
   };
+  equicord: {
+    contributor: boolean;
+    cutie: [
+      {
+        tooltip: string;
+        image: string;
+      }
+    ];
+  };
+  raincord: [
+    {
+      label: string;
+      url: string;
+    }
+  ]
+  reviewdb: [
+    {
+      name: string;
+      icon: string;
+      redirectURL: string;
+      description: string;
+    }
+  ]
 }
 
 // export interface BadgeProps {

@@ -191,6 +191,42 @@ const badgeGroups = {
     }
     return badges;
   },
+  equicord: (value: CustomBadges["equicord"]) => {
+    const badges: BadgeGroupItem[] = [];
+    if (value?.contributor) {
+      badges.push({
+        type: "contributor",
+        label: "Vencord Contributor",
+        uri: "https://equicord.org/assets/icons/equicord/icon.png",
+      });
+    }
+    if (Array.isArray(value?.cutie)) {
+      value.cutie.forEach((cutie, idx) => {
+        badges.push({
+          type: `cutie${idx}`,
+          label: cutie.tooltip,
+          uri: cutie.image,
+        });
+      });
+    }
+    return badges;
+  },
+  raincord: (value: CustomBadges["raincord"]) => {
+    if (!Array.isArray(value)) return [];
+    return value.map((badge) => ({
+      type: badge.label,
+      label: badge.label,
+      uri: badge.url,
+    }));
+  },
+  reviewdb: (value: CustomBadges["reviewdb"]) => {
+    if (!Array.isArray(value)) return [];
+    return value.map((badge) => ({
+      type: badge.name,
+      label: badge.name,
+      uri: badge.icon,
+    }));
+  }
 };
 
 export default badgeGroups;
