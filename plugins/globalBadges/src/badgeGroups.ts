@@ -177,7 +177,7 @@ const badgeGroups = {
       badges.push({
         type: "contributor",
         label: "Vencord Contributor",
-        uri: "https://vencord.dev/assets/favicon.png",
+        uri: "https://vencord.dev/assets/logo.png",
       });
     }
     if (Array.isArray(value?.cutie)) {
