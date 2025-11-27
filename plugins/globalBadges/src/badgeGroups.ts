@@ -196,7 +196,7 @@ const badgeGroups = {
     if (value?.contributor) {
       badges.push({
         type: "contributor",
-        label: "Vencord Contributor",
+        label: "Equicord Contributor",
         uri: "https://equicord.org/assets/icons/equicord/icon.png",
       });
     }
