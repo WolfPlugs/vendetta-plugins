@@ -17,5 +17,5 @@
 		"rollup-plugin-esbuild": "^5.0.0",
 		"vendetta-types": "latest"
 	},
-	"packageManager": "pnpm@11.9.0",
+	"packageManager": "pnpm@11.9.0"
 }
