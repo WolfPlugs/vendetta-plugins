@@ -19,7 +19,6 @@ export default () => {
         <ScrollView>
             <FormSwitchRow
                 label="Show custom badges first"
-                leading={<FormIcon source={getAssetIDByName("ic_nitro_rep_24px")} />}
                 value={storage.left ?? false}
                 onValueChange={(value: boolean) => storage.left = value}
             />
