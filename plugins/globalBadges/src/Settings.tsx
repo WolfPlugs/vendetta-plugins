@@ -21,12 +21,12 @@ export default () => {
                 label="Load Badges on left"
                 subLabel="If enabled, custom badges will load up first than the original badges."
                 leading={<FormIcon source={getAssetIDByName("ic_nitro_rep_24px")} />}
-                value={storage.left}
+                value={storage.left ?? false}
                 onValueChange={(value: boolean) => storage.left = value}
             />
             <FormSwitchRow
                 label="Show Mod as Prefix"
-                value={storage.showPrefix}
+                value={storage.showPrefix ?? false}
                 onValueChange={(value: boolean) => {
                     storage.showPrefix = value;
                     if (value && storage.showSuffix) storage.showSuffix = false;
@@ -35,22 +35,22 @@ export default () => {
             />
             <FormSwitchRow
                 label="Show Mod as Suffix"
-                value={storage.showSuffix}
+                value={storage.showSuffix ?? false}
                 onValueChange={(value: boolean) => {
                     storage.showSuffix = value;
                     if (value && storage.showPrefix) storage.showPrefix = false;
                     refetch();
                 }}
             />
-            <FormSwitchRow label="Show Custom Badges" value={storage.showCustom} onValueChange={(v: boolean) => { storage.showCustom = v; refetch(); }} />
-            <FormSwitchRow label="Show Nekocord Badges" value={storage.showNekocord} onValueChange={(v: boolean) => { storage.showNekocord = v; refetch(); }} />
-            <FormSwitchRow label="Show ReviewDB Badges" value={storage.showReviewDB} onValueChange={(v: boolean) => { storage.showReviewDB = v; refetch(); }} />
-            <FormSwitchRow label="Show Aero Badges" value={storage.showAero} onValueChange={(v: boolean) => { storage.showAero = v; refetch(); }} />
-            <FormSwitchRow label="Show Aliucord Badges" value={storage.showAliucord} onValueChange={(v: boolean) => { storage.showAliucord = v; refetch(); }} />
-            <FormSwitchRow label="Show Raincord Badges" value={storage.showRaincord} onValueChange={(v: boolean) => { storage.showRaincord = v; refetch(); }} />
-            <FormSwitchRow label="Show Velocity Badges" value={storage.showVelocity} onValueChange={(v: boolean) => { storage.showVelocity = v; refetch(); }} />
-            <FormSwitchRow label="Show Enmity Badges" value={storage.showEnmity} onValueChange={(v: boolean) => { storage.showEnmity = v; refetch(); }} />
-            <FormSwitchRow label="Show Paicord Badges" value={storage.showPaicord} onValueChange={(v: boolean) => { storage.showPaicord = v; refetch(); }} />
+            <FormSwitchRow label="Show Custom Badges" value={storage.showCustom ?? true} onValueChange={(v: boolean) => { storage.showCustom = v; refetch(); }} />
+            <FormSwitchRow label="Show Nekocord Badges" value={storage.showNekocord ?? true} onValueChange={(v: boolean) => { storage.showNekocord = v; refetch(); }} />
+            <FormSwitchRow label="Show ReviewDB Badges" value={storage.showReviewDB ?? true} onValueChange={(v: boolean) => { storage.showReviewDB = v; refetch(); }} />
+            <FormSwitchRow label="Show Aero Badges" value={storage.showAero ?? true} onValueChange={(v: boolean) => { storage.showAero = v; refetch(); }} />
+            <FormSwitchRow label="Show Aliucord Badges" value={storage.showAliucord ?? true} onValueChange={(v: boolean) => { storage.showAliucord = v; refetch(); }} />
+            <FormSwitchRow label="Show Raincord Badges" value={storage.showRaincord ?? true} onValueChange={(v: boolean) => { storage.showRaincord = v; refetch(); }} />
+            <FormSwitchRow label="Show Velocity Badges" value={storage.showVelocity ?? true} onValueChange={(v: boolean) => { storage.showVelocity = v; refetch(); }} />
+            <FormSwitchRow label="Show Enmity Badges" value={storage.showEnmity ?? true} onValueChange={(v: boolean) => { storage.showEnmity = v; refetch(); }} />
+            <FormSwitchRow label="Show Paicord Badges" value={storage.showPaicord ?? true} onValueChange={(v: boolean) => { storage.showPaicord = v; refetch(); }} />
 
             <FormRow
                 label="Add Custom badges"
