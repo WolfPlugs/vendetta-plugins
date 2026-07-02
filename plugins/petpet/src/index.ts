@@ -11,6 +11,7 @@ export default {
             displayName: "petpet",
             displayDescription: "PetPet someone",
             description: "PetPet someone",
+
             options: [
                 {
                     name: "user",
@@ -19,8 +20,9 @@ export default {
                     required: true,
                     displayName: "user",
                     displayDescription: "The user(or their id) to be patted",
-                }
+                },
             ],
+
             execute: pcommand,
             applicationId: "-1",
             inputType: 1,
@@ -30,12 +32,13 @@ export default {
 
     onUnload: () => {
         command();
-
     },
 };
 
 async function getApiData(image: any) {
-    const data = await fetch(`https://api.obamabot.me/v2/image/petpet?image=${image.replace("webp", "png")}`);
+    const data = await fetch(
+        `https://api.obamabot.me/v2/image/petpet?image=${image.replace("webp", "png")}`,
+    );
     const body = await data.json();
 
     return body;
@@ -48,5 +51,5 @@ async function pcommand(args, ctx) {
 
     return {
         content: data.url,
-    }
+    };
 }
