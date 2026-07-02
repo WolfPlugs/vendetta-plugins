@@ -9,10 +9,11 @@ export const serviceMap: Record<string, string> = {
     reviewdb: "ReviewDB",
     aero: "Aero",
     aliucord: "Aliucord",
-    raincord: "Raincord",
     velocity: "Velocity",
     enmity: "Enmity",
     paicord: "Paicord",
+    vencord: "Vencord",
+    equicord: "Equicord"
 };
 
 const blockedMods = ["raincord"];
@@ -38,9 +39,10 @@ export async function loadBadges() {
                     nekocord: storage.showNekocord ?? true,
                     reviewdb: storage.showReviewDB ?? true,
                     aliucord: storage.showAliucord ?? true,
-                    raincord: storage.showRaincord ?? true,
                     enmity: storage.showEnmity ?? true,
                     paicord: storage.showPaicord ?? true,
+                    vencord: storage.showVencord ?? true,
+                    equicord: storage.showEquicord ?? true,
                 };
 
                 if (mod in conditionalMods && !conditionalMods[mod as keyof typeof conditionalMods]) return false;
