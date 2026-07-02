@@ -11,8 +11,5 @@
             "id": "848339671629299742"
         }
     ],
-    "main": "src/index.tsx",
-    "vendetta": {
-        "icon": "ic_nitro_rep_24px"
-    }
+    "main": "src/index.tsx"
 }
