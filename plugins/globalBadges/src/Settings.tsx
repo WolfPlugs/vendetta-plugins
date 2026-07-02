@@ -2,15 +2,18 @@ import { Forms, General } from "@vendetta/ui/components";
 import { storage } from '@vendetta/plugin';
 import { useProxy } from '@vendetta/storage';
 import { getAssetIDByName } from "@vendetta/ui/assets";
-import { url } from "@vendetta/metro/common"
+import { url } from "@vendetta/metro/common";
+import { loadBadges } from "./utils";
 
 const { ScrollView } = General;
-
 const { FormSwitchRow, FormRow, FormIcon } = Forms;
 
 export default () => {
     useProxy(storage);
 
+    const refetch = () => {
+        loadBadges();
+    };
 
     return (
         <ScrollView>
@@ -18,23 +21,37 @@ export default () => {
                 label="Load Badges on left"
                 subLabel="If enabled, custom badges will load up first than the original badges."
                 leading={<FormIcon source={getAssetIDByName("ic_nitro_rep_24px")} />}
-                value={storage.left}
+                value={storage.left ?? false}
                 onValueChange={(value: boolean) => storage.left = value}
             />
             <FormSwitchRow
-                label="Disable Mod Badges"
-                subLabel="If enabled, it will disable mod client badges but not custom badges."
-                leading={<FormIcon source={getAssetIDByName("ic_shield_24px")} />}
-                value={storage.mods}
-                onValueChange={(value: boolean) => storage.mods = value}
+                label="Show Mod as Prefix"
+                value={storage.showPrefix ?? false}
+                onValueChange={(value: boolean) => {
+                    storage.showPrefix = value;
+                    if (value && storage.showSuffix) storage.showSuffix = false;
+                    refetch();
+                }}
             />
             <FormSwitchRow
-                label="Disable Custom Badges"
-                subLabel="If enabled, it will disable custom badges but not mod client badges."
-                leading={<FormIcon source={getAssetIDByName("alert")} />}
-                value={storage.customs}
-                onValueChange={(value: boolean) => storage.customs = value}
+                label="Show Mod as Suffix"
+                value={storage.showSuffix ?? false}
+                onValueChange={(value: boolean) => {
+                    storage.showSuffix = value;
+                    if (value && storage.showPrefix) storage.showPrefix = false;
+                    refetch();
+                }}
             />
+            <FormSwitchRow label="Show Custom Badges" value={storage.showCustom ?? true} onValueChange={(v: boolean) => { storage.showCustom = v; refetch(); }} />
+            <FormSwitchRow label="Show Vencord Badges" value={storage.showVencord ?? true} onValueChange={(v: boolean) => { storage.showVencord = v; refetch(); }} />
+            <FormSwitchRow label="Show Equicord Badges" value={storage.showEquicord ?? true} onValueChange={(v: boolean) => { storage.showEquicord = v; refetch(); }} />
+            <FormSwitchRow label="Show Nekocord Badges" value={storage.showNekocord ?? true} onValueChange={(v: boolean) => { storage.showNekocord = v; refetch(); }} />
+            <FormSwitchRow label="Show ReviewDB Badges" value={storage.showReviewDB ?? true} onValueChange={(v: boolean) => { storage.showReviewDB = v; refetch(); }} />
+            <FormSwitchRow label="Show Aero Badges" value={storage.showAero ?? true} onValueChange={(v: boolean) => { storage.showAero = v; refetch(); }} />
+            <FormSwitchRow label="Show Aliucord Badges" value={storage.showAliucord ?? true} onValueChange={(v: boolean) => { storage.showAliucord = v; refetch(); }} />
+            <FormSwitchRow label="Show Velocity Badges" value={storage.showVelocity ?? true} onValueChange={(v: boolean) => { storage.showVelocity = v; refetch(); }} />
+            <FormSwitchRow label="Show Enmity Badges" value={storage.showEnmity ?? true} onValueChange={(v: boolean) => { storage.showEnmity = v; refetch(); }} />
+            <FormSwitchRow label="Show Paicord Badges" value={storage.showPaicord ?? true} onValueChange={(v: boolean) => { storage.showPaicord = v; refetch(); }} />
             <FormRow
                 label="Add Custom badges"
                 leading={<FormRow.Icon source={getAssetIDByName("Discord")} />}
@@ -43,5 +60,4 @@ export default () => {
             />
         </ScrollView>
     )
-
 }

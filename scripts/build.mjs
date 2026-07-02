@@ -7,7 +7,6 @@ import commonjs from "@rollup/plugin-commonjs";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import swc from "@swc/core";
 
-/** @type import("rollup").InputPluginOption */
 const plugins = [
     nodeResolve(),
     commonjs(),
@@ -44,10 +43,10 @@ for (let plug of await readdir("./plugins")) {
     try {
         const bundle = await rollup({
             input: `./plugins/${plug}/${manifest.main}`,
-            onwarn: () => {},
+            onwarn: () => { },
             plugins,
         });
-    
+
         await bundle.write({
             file: outPath,
             globals(id) {
@@ -63,12 +62,12 @@ for (let plug of await readdir("./plugins")) {
             exports: "named",
         });
         await bundle.close();
-    
+
         const toHash = await readFile(outPath);
         manifest.hash = createHash("sha256").update(toHash).digest("hex");
         manifest.main = "index.js";
         await writeFile(`./dist/${plug}/manifest.json`, JSON.stringify(manifest));
-    
+
         console.log(`Successfully built ${manifest.name}!`);
     } catch (e) {
         console.error("Failed to build plugin...", e);

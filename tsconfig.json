@@ -8,7 +8,11 @@
         "jsx": "react-native",
         "allowJs": true,
         "noImplicitAny": false,
-        "strict": true
+        "strict": true,
+        "forceConsistentCasingInFileNames": true
     },
-    "include": ["plugins", "node_modules/vendetta-types", "Types/*.ts", "Types/*.tsx"]
+    "include": [
+        "plugins",
+        "node_modules/vendetta-types"
+    ]
 }

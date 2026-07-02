@@ -5,6 +5,10 @@
         {
             "name": "Wolfie",
             "id": "347096063569559553"
+        },
+        {
+            "name": "thororen",
+            "id": "848339671629299742"
         }
     ],
     "main": "src/index.tsx",
