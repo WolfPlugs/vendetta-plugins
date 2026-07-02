@@ -5,7 +5,7 @@ import { storage } from "@vendetta/plugin";
 import { GlobalBadges, loadBadges } from "./utils";
 import { BadgeProps } from "./types";
 
-const bunny = window.bunny.api.react.jsx;
+const bunny = (window as any).bunny.api.react.jsx;
 
 const REFRESH_INTERVAL = 1000 * 60 * 30;
 
