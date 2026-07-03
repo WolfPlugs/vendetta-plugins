@@ -17,6 +17,12 @@ export default () => {
 
     return (
         <ScrollView>
+            <FormRow
+                label="Add Custom badges"
+                leading={<FormRow.Icon source={getAssetIDByName("Discord")} />}
+                trailing={FormRow.Arrow}
+                onPress={() => url.openDeeplink("https://discord.gg/eTvYv95PCG")}
+            />
             <FormSwitchRow
                 label="Show custom badges first"
                 value={storage.left ?? false}
@@ -50,12 +56,13 @@ export default () => {
             <FormSwitchRow label="Show Velocity Badges" value={storage.showVelocity ?? true} onValueChange={(v: boolean) => { storage.showVelocity = v; refetch(); }} />
             <FormSwitchRow label="Show Enmity Badges" value={storage.showEnmity ?? true} onValueChange={(v: boolean) => { storage.showEnmity = v; refetch(); }} />
             <FormSwitchRow label="Show Paicord Badges" value={storage.showPaicord ?? true} onValueChange={(v: boolean) => { storage.showPaicord = v; refetch(); }} />
-            <FormRow
-                label="Add Custom badges"
-                leading={<FormRow.Icon source={getAssetIDByName("Discord")} />}
-                trailing={FormRow.Arrow}
-                onPress={() => url.openDeeplink("https://discord.gg/eTvYv95PCG")}
-            />
+            <FormSwitchRow label="Show Bunny Badges" value={storage.showBunny ?? true} onValueChange={(v: boolean) => { storage.showBunny = v; refetch(); }} />
+            <FormSwitchRow label="Show GooseMod Badges" value={storage.showGooseMod ?? true} onValueChange={(v: boolean) => { storage.showGooseMod = v; refetch(); }} />
+            <FormSwitchRow label="Show Replugged Badges" value={storage.showReplugged ?? true} onValueChange={(v: boolean) => { storage.showReplugged = v; refetch(); }} />
+            <FormSwitchRow label="Show BetterDiscord Badges" value={storage.showBetterDiscord ?? true} onValueChange={(v: boolean) => { storage.showBetterDiscord = v; refetch(); }} />
+            <FormSwitchRow label="Show Vendroid Enhanced Badges" value={storage.showVendroidEnhanced ?? true} onValueChange={(v: boolean) => { storage.showVendroidEnhanced = v; refetch(); }} />
+            <FormSwitchRow label="Show Revenge Badges" value={storage.showRevenge ?? true} onValueChange={(v: boolean) => { storage.showRevenge = v; refetch(); }} />
+            <FormSwitchRow label="Show ReCord Badges" value={storage.showReCord ?? true} onValueChange={(v: boolean) => { storage.showReCord = v; refetch(); }} />
         </ScrollView>
     )
 }
