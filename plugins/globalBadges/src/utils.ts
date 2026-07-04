@@ -9,9 +9,17 @@ export const serviceMap: Record<string, string> = {
     reviewdb: "ReviewDB",
     aero: "Aero",
     aliucord: "Aliucord",
+    raincord: "Raincord",
     velocity: "Velocity",
     enmity: "Enmity",
     paicord: "Paicord",
+    bunny: "Bunny",
+    goosemod: "GooseMod",
+    replugged: "Replugged",
+    betterdiscord: "BetterDiscord",
+    vendroidenhanced: "VendroidEnhanced",
+    revenge: "Revenge",
+    record: "ReCord",
     vencord: "Vencord",
     equicord: "Equicord"
 };
@@ -43,6 +51,13 @@ export async function loadBadges() {
                     paicord: storage.showPaicord ?? true,
                     vencord: storage.showVencord ?? true,
                     equicord: storage.showEquicord ?? true,
+                    bunny: storage.showBunny ?? true,
+                    goosemod: storage.showGooseMod ?? true,
+                    replugged: storage.showReplugged ?? true,
+                    betterdiscord: storage.showBetterDiscord ?? true,
+                    vendroidenhanced: storage.showVendroidEnhanced ?? true,
+                    revenge: storage.showRevenge ?? true,
+                    record: storage.showReCord ?? true
                 };
 
                 if (mod in conditionalMods && !conditionalMods[mod as keyof typeof conditionalMods]) return false;
@@ -50,11 +65,11 @@ export async function loadBadges() {
                 return true;
             }).map((b: any) => {
                 const modFormatted = serviceMap[b.mod] || b.mod;
-                const showPrefix = storage.showPrefix ?? true;
-                const showSuffix = storage.showSuffix ?? false;
+                let prefix = ""
+                let suffix = ""
+                if (storage.showModStyle == "prefix") { prefix = `${modFormatted} - `; }
+                if (storage.showModStyle == "suffix") { suffix = ` - ${modFormatted}`; }
 
-                const prefix = showPrefix ? `${modFormatted} - ` : "";
-                const suffix = showSuffix ? ` - ${modFormatted}` : "";
                 const tooltip = prefix + b.tooltip + suffix;
                 return {
                     ...b,

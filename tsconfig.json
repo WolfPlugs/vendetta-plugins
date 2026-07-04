@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "rootDir": ".",
         "outDir": "dist",
         "target": "ESNext",
         "module": "ESNext",
@@ -8,6 +9,7 @@
         "jsx": "react-native",
         "allowJs": true,
         "noImplicitAny": false,
+        "ignoreDeprecations": "6.0",
         "strict": true,
         "forceConsistentCasingInFileNames": true
     },
