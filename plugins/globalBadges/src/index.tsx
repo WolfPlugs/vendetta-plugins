@@ -6,15 +6,33 @@ import { GlobalBadges, loadBadges } from "./utils";
 import { BadgeProps } from "./types";
 
 const bunny = (window as any).bunny.api.react.jsx;
-
 const REFRESH_INTERVAL = 1000 * 60 * 30;
-
 const badgeModule = findByName("useBadges", false);
 
 let unpatch;
 let intervalId;
 export default {
   onLoad: async () => {
+    storage.left ??= false;
+    storage.showModStyle ??= "none";
+    storage.showAero ??= true;
+    storage.showAliucord ??= true;
+    storage.showCustom ??= true;
+    storage.showBetterDiscord ??= true;
+    storage.showBunny ??= true;
+    storage.showEnmity ??= true;
+    storage.showEquicord ??= true;
+    storage.showGooseMod ??= true;
+    storage.showNekocord ??= true;
+    storage.showPaicord ??= true;
+    storage.showReCord ??= true;
+    storage.showReplugged ??= true;
+    storage.showRevenge ??= true;
+    storage.showReviewDB ??= true;
+    storage.showVelocity ??= true;
+    storage.showVencord ??= true;
+    storage.showVendroidEnhanced ??= true;
+
     await loadBadges();
     intervalId = setInterval(loadBadges, REFRESH_INTERVAL);
 
