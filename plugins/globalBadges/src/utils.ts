@@ -65,10 +65,8 @@ export async function loadBadges() {
                 return true;
             }).map((b: any) => {
                 const modFormatted = serviceMap[b.mod] || b.mod;
-                let prefix = ""
-                let suffix = ""
-                if (storage.showModStyle == "prefix") { prefix = `${modFormatted} - `; }
-                if (storage.showModStyle == "suffix") { suffix = ` - ${modFormatted}`; }
+                const prefix = storage.showModStyle === "prefix" ? `${modFormatted} - ` : ""
+                const suffix = storage.showModStyle === "suffix" ? ` - ${modFormatted}` : ""
 
                 const tooltip = prefix + b.tooltip + suffix;
                 return {
