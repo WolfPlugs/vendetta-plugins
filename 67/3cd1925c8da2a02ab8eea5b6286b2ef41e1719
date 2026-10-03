@@ -1,0 +1,26 @@
+plugins/petpet/src/index.ts
+  s_df881ad280d2cc::t_f1b9d104b39127 6-7
+  s_df881ad280d2cc::t_8ceb8ebd97b9fd 3,10,12-22,24-30,32,35-39,42-48,50-64,66,68-76,82,84-117
+  s_df881ad280d2cc::t_e9f0b127ecad35 4,33-34,77-81
+  s_df881ad280d2cc::t_cb187ec2f04694 9
+  s_df881ad280d2cc::t_a538fd7159f220 118
+plugins/petpet/manifest.json
+  s_df881ad280d2cc::t_f1b9d104b39127 8-10
+  s_df881ad280d2cc::t_0baa7adbb61ff7 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "673cd1925c8da2a02ab8eea5b6286b2ef41e1719",
+  "prompts": {},
+  "sessions": {
+    "s_df881ad280d2cc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1033b-d126-7491-aeae-ca73852b7f10",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Wolfkid200444 <32025746+Wolfkid200444@users.noreply.github.com>"
+    }
+  }
+}
