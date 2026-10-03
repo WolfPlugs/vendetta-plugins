@@ -1,0 +1,19 @@
+plugins/petpet/src/index.ts
+  s_df881ad280d2cc::t_69bda6a1fa1d51 12-43,75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "84fd6712c30daac2998ae206b2b576f9a74156a1",
+  "prompts": {},
+  "sessions": {
+    "s_df881ad280d2cc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1033b-d126-7491-aeae-ca73852b7f10",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Wolfkid200444 <32025746+Wolfkid200444@users.noreply.github.com>"
+    }
+  }
+}
