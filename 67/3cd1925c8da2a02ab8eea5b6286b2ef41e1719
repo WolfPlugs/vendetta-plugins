@@ -4,9 +4,11 @@ plugins/petpet/src/index.ts
   s_df881ad280d2cc::t_e9f0b127ecad35 4,33-34,77-81
   s_df881ad280d2cc::t_cb187ec2f04694 9
   s_df881ad280d2cc::t_a538fd7159f220 118
+  s_df881ad280d2cc::t_c89c8b9daa2268 2,5,49,67
 plugins/petpet/manifest.json
   s_df881ad280d2cc::t_f1b9d104b39127 8-10
   s_df881ad280d2cc::t_0baa7adbb61ff7 11
+  s_df881ad280d2cc::t_c89c8b9daa2268 18
 ---
 {
   "schema_version": "authorship/3.0.0",
