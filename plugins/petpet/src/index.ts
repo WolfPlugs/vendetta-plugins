@@ -9,6 +9,38 @@ import { logger } from "@vendetta";
 const UserStore = findByStoreName("UserStore");
 let unregister: (() => void) | undefined;
 
+interface NativeFileManager {
+  writeFile(directory: "cache", path: string, data: string, encoding: "base64"): Promise<string>;
+  removeFile(directory: "cache", path: string): Promise<unknown>;
+}
+
+function isFileManager(module: unknown): module is NativeFileManager {
+  return typeof module === "object" && module !== null &&
+    "writeFile" in module && typeof module.writeFile === "function" &&
+    "removeFile" in module && typeof module.removeFile === "function";
+}
+
+function getFileManager(): NativeFileManager {
+  const turboProxy = Reflect.get(globalThis, "__turboModuleProxy");
+  const nativeProxy = Reflect.get(globalThis, "nativeModuleProxy");
+  for (const name of ["NativeFileModule", "RTNFileManager", "DCDFileManager"]) {
+    // An unavailable TurboModule may throw instead of returning null.
+    if (typeof turboProxy === "function") {
+      try {
+        const module: unknown = turboProxy(name);
+        if (isFileManager(module)) return module;
+      } catch {}
+    }
+    if (nativeProxy && typeof nativeProxy === "object") {
+      const module: unknown = Reflect.get(nativeProxy, name);
+      if (isFileManager(module)) return module;
+    }
+    const module: unknown = ReactNative.NativeModules[name];
+    if (isFileManager(module)) return module;
+  }
+  throw new Error("No supported Discord file module was found.");
+}
+
 function getApiBase(): string {
   const api = findByProps("getAPIBaseURL", "del");
   let base = api?.getAPIBaseURL?.();
@@ -40,10 +72,7 @@ async function fetchPetPetBase64(avatarUrl: string): Promise<string> {
 }
 
 async function sendPetPetAttachment(channelId: string, base64Data: string): Promise<void> {
-  const files = ReactNative.NativeModules.DCDFileManager;
-  if (!files?.writeFile || !files?.removeFile) {
-    throw new Error("Discord's native file manager is unavailable.");
-  }
+  const files = getFileManager();
   const token = findByProps("getToken")?.getToken?.();
   if (!token) throw new Error("Unable to resolve authorization token.");
 
